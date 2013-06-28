@@ -5,12 +5,6 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 
 public class Main {
 	public static void main(String[] args) {
-		LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
-		cfg.title = "angry-antelope-game";
-		cfg.useGL20 = false;
-		cfg.width = 480;
-		cfg.height = 320;
-		
-		new LwjglApplication(new GameStartClass(), cfg);
+		new LwjglApplication(new AmbulanceCreater(), "Ambulance Stuff", 1280, 800, true);
 	}
 }
