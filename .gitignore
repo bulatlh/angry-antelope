@@ -1,7 +1,9 @@
-bin/*
+*/bin/*
 *.class
 .DS_Store
 .classpath
 .project
 angry-antelope-game-html/
-lib/* 	
+*/lib/*
+*/libs/*
+*/project.properties 	
