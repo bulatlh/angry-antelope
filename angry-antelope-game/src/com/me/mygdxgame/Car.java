@@ -13,24 +13,33 @@ public class Car {
 	float rotation;
 	
 	Vector2 	position = new Vector2();
-	private float   	acceleration = 0;
+	private float   	acceleration;
 	Vector2 	velocity = new Vector2();
 	Rectangle 	bounds = new Rectangle();
 	State		state = State.IDLE;
 
 	public Car(Vector2 position) {
 		this.rotation = 0;
+		this.acceleration = 0;
 		this.position = position;
 		this.bounds.height = Constants.CAR_HEIGHT;
 		this.bounds.width = Constants.CAR_WIDTH;
 	}
 	
 	public void rotateCW(){
-		this.rotating(-1*Constants.ROTATE_SPEED);
+		int mult = -1;
+		if (acceleration < 0){
+			mult = 1;
+		}
+		this.rotating(mult*Constants.ROTATE_SPEED);
 	}
 	
 	public void rotateCCW(){
-		this.rotating(Constants.ROTATE_SPEED);
+		int mult = 1;
+		if (acceleration < 0){
+			mult = -1;
+		}		
+		this.rotating(mult*Constants.ROTATE_SPEED);
 	}
 	
 	public void rotating(float val){
@@ -62,10 +71,13 @@ public class Car {
 	}
 	
 	public void update(float delta){
+		
+		
 		if (Gdx.app.getType().equals(ApplicationType.Android)){
 			rotation -= Gdx.input.getAccelerometerY()+Constants.ROTATION_SCALAR;
 			acceleration = (float) (Gdx.input.getAccelerometerX()*Constants.ACCELEROMETER_SCALAR);
 		}
+		
 		float tempRotation = (float) Math.toRadians(rotation + Constants.DEGREE_OFFSET);
 //		velocity.y += (float) (Math.sin(tempRotation)*acceleration*delta);
 //		velocity.x += (float) (Math.cos(tempRotation)*acceleration*delta);
@@ -84,9 +96,22 @@ public class Car {
 	}
 
 	public void acceleration(int i) {
-		acceleration += i*Constants.CAR_ACCELERATION;
-		if(Math.abs(acceleration) > Constants.CAR_MAX_ACCELERATION){
-			acceleration = i*Constants.CAR_MAX_ACCELERATION;
+		float tempAccel = Constants.CAR_ACCELERATION;
+		float tempMax = Constants.CAR_MAX_ACCELERATION;
+		if (acceleration < 0){
+			tempAccel *= Constants.CAR_BACK_ACCELERATION_SCALE;	
+			tempMax *= Constants.CAR_BACK_ACCELERATION_SCALE;
+		}
+		acceleration += i*tempAccel;
+		if(Math.abs(acceleration) > tempMax){
+			acceleration = i*tempMax;
+		}
+	}
+	
+	public void applyFriction() {
+		acceleration *= Constants.ACCELERATION_LOSS;
+		if (Math.abs(acceleration) <= Constants.ACCELERATION_MIN){
+			acceleration = 0;
 		}
 	}
 }
