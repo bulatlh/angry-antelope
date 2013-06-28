@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
@@ -16,7 +17,6 @@ import com.badlogic.gdx.math.Rectangle;
 
 public class WorldRenderer {
 
-	
 	private World world;
 	private OrthographicCamera cam;
 
@@ -26,7 +26,6 @@ public class WorldRenderer {
 	/** Textures **/
 	private Texture carTexture;
 	private Sprite carSprite;
-
 	private SpriteBatch spriteBatch;
 	private boolean debug = false;
 	private int width;
@@ -52,11 +51,11 @@ public class WorldRenderer {
 
 	private void loadTextures() {
 		carTexture = new  Texture(Gdx.files.internal("images/ambulance/ambulance-1.png"));
-		carSprite = new Sprite(carTexture,Constants.CAR_HEIGHT,Constants.CAR_WIDTH);
+		carSprite = new Sprite(carTexture);
 		
 		Car car = world.getCar();
 		Rectangle rect = car.getBounds();
-		carSprite.setSize(rect.width,rect.height);
+		carSprite.setSize(Constants.CAR_SCALAR * rect.width,Constants.CAR_SCALAR * rect.height);
 	}
 
 	public void render() {
@@ -71,6 +70,7 @@ public class WorldRenderer {
 		spriteBatch.end();
 //		if (true){
 		if(debug){
+
 			drawDebug();
 		}
 	}
@@ -96,7 +96,6 @@ public class WorldRenderer {
 		carSprite.setOrigin(carSprite.getWidth()/2,carSprite.getHeight()/2);
 		carSprite.setRotation(car.getRotation());
 		carSprite.draw(spriteBatch);
-		
 	}
 
 	private void drawDebug() {

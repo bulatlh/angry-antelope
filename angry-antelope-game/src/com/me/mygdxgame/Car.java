@@ -1,5 +1,7 @@
 package com.me.mygdxgame;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Application.ApplicationType;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
@@ -8,8 +10,6 @@ public class Car {
 	public enum State {
 		IDLE, WALKING
 	}
-
-	
 	float rotation;
 	
 	Vector2 	position = new Vector2();
@@ -62,16 +62,21 @@ public class Car {
 	}
 	
 	public void update(float delta){
-		float tempRotation = (float) Math.toRadians(rotation + 90);
-		
-		velocity.y += (float) (Math.sin(tempRotation)*acceleration*delta);
-		velocity.x += (float) (Math.cos(tempRotation)*acceleration*delta);
-		
-		if(Constants.MAX_VELOCITY < Math.sqrt(velocity.x * velocity.x + velocity.y * velocity.y)){
-			velocity.x = (float) (Constants.MAX_VELOCITY * Math.cos(tempRotation));
-			velocity.y = (float) (Constants.MAX_VELOCITY * Math.sin(tempRotation));
+		if (Gdx.app.getType().equals(ApplicationType.Android)){
+			rotation -= Gdx.input.getAccelerometerY()+Constants.ROTATION_SCALAR;
+			acceleration = (float) (Gdx.input.getAccelerometerX()*Constants.ACCELEROMETER_SCALAR);
 		}
-		position.add(velocity.cpy().mul(delta));
+		float tempRotation = (float) Math.toRadians(rotation + Constants.DEGREE_OFFSET);
+//		velocity.y += (float) (Math.sin(tempRotation)*acceleration*delta);
+//		velocity.x += (float) (Math.cos(tempRotation)*acceleration*delta);
+		
+//		if(Constants.MAX_VELOCITY < Math.sqrt(velocity.x * velocity.x + velocity.y * velocity.y)){
+//			velocity.x = (float) (Constants.MAX_VELOCITY * Math.cos(tempRotation));
+//			velocity.y = (float) (Constants.MAX_VELOCITY * Math.sin(tempRotation));
+//		}
+//		position.add(velocity.cpy().mul(delta));
+		position.add(new Vector2((float) Math.cos(tempRotation)*acceleration*delta,
+				(float) (Math.sin(tempRotation)*acceleration*delta)));
 	}
 
 	public Vector2 getCenterPosition() {

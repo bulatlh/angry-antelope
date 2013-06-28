@@ -21,7 +21,6 @@ public class WorldController {
 
 	static Map<Keys, Boolean> keys = new HashMap<WorldController.Keys, Boolean>();
 	static {
-		
 		keys.put(Keys.LEFT, false);
 		keys.put(Keys.RIGHT, false);
 		keys.put(Keys.UP, false);
@@ -76,14 +75,13 @@ public class WorldController {
 
 	/** Change Bob's state and parameters based on input controls **/
 	private void processInput() {
-		
 		if (keys.get(Keys.LEFT)) {
-			car.rotateCW();
-			renderer.rotateCW();
-		}
-		if (keys.get(Keys.RIGHT)) {
 			car.rotateCCW();
 			renderer.rotateCCW();
+		}
+		if (keys.get(Keys.RIGHT)) {
+			car.rotateCW();
+			renderer.rotateCW();
 		}
 		
 		if (keys.get(Keys.UP)) {
@@ -98,17 +96,7 @@ public class WorldController {
 		if ((!keys.get(Keys.UP)  && !keys.get(Keys.DOWN))) {
 			
 		}
-		
 	}
 
-	public void accelerometerControlX() {
-		// TODO Auto-generated method stub
-		car.position.y-= Gdx.input.getAccelerometerX()*2 * Gdx.graphics.getDeltaTime();
-		
-	}
-	public void accelerometerControlY() {
-		// TODO Auto-generated method stub
-		car.position.x+= Gdx.input.getAccelerometerY()*2 * Gdx.graphics.getDeltaTime();
-		
-	}
+	
 }

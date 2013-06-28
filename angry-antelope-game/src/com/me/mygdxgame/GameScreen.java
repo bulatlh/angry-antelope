@@ -14,18 +14,11 @@ public class GameScreen implements Screen, InputProcessor {
 	private WorldController controller;
 	
 	@Override
-	public void render(float delta) {
-		// TODO Auto-generated method stub
-		if (Gdx.app.getType().equals(ApplicationType.Android)){
-			controller.accelerometerControlX();
-			controller.accelerometerControlY();
-		}
-		
+	public void render(float delta){		
 		Gdx.gl.glClearColor(0.1f, 0.1f, 0.1f, 1);
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 		controller.update(delta);
 		renderer.render();
-		
 	}
 
 	@Override
@@ -77,7 +70,7 @@ public class GameScreen implements Screen, InputProcessor {
 		}
 		if (keycode == Keys.W){
 			controller.upPressed();
-		}		
+		}
 		
 		return true;
 	}
@@ -98,7 +91,6 @@ public class GameScreen implements Screen, InputProcessor {
 		if (keycode == Keys.W){
 			controller.upReleased();
 		}
-		
 		return true;
 	}
 
