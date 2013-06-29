@@ -40,8 +40,8 @@ public class ButtonObject {
 	}
 	
 	public boolean clickedButton(int x, int y){
-		if(position.x < x && position.x+width > x){
-			if(position.y < y && position.y+height > y){
+		if(x > position.x  && x < position.x + width){
+			if(position.y < y && position.y - height > y){
 				return true;
 			}
 		}
@@ -49,8 +49,11 @@ public class ButtonObject {
 	}
 
 	public boolean isClicked(int x, int y){
-		if ( x > position.x  && x < position.x + width){
-			if (y < position.y + height && y > position.y)
+		
+		System.out.println("Clicked here " + x + ", "+ y);
+		System.out.println("BUTTON here " + position.x + ", "+ position.y);
+		
+		if ( x >= position.x  && x < position.x + width){
 				return true;
 		}
 		return false;

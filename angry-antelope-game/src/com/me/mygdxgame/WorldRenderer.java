@@ -74,8 +74,9 @@ public class WorldRenderer {
 		drawTargets();
 		drawZombies();
 		drawInterface();
+		drawScore();
 		spriteBatch.end();
-
+		
 		Matrix4 debugMatrix=new Matrix4(cam.combined);
 		 
 		debugMatrix.scale(1, 1, 1f);
@@ -106,6 +107,10 @@ public class WorldRenderer {
 
 	private void drawInterface() {
 		
+	}
+	
+	private void drawScore(){
+		world.scoreBoard.draw(spriteBatch);
 	}
 	
 	public void rotating(float val){

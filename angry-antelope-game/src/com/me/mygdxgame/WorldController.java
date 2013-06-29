@@ -20,6 +20,8 @@ public class WorldController {
 	private WorldRenderer renderer;
 	private Car 	car;
 
+	private int totalScore = 0;
+	
 	static Map<Keys, Boolean> keys = new HashMap<WorldController.Keys, Boolean>();
 	static {
 		keys.put(Keys.LEFT, false);
@@ -72,17 +74,22 @@ public class WorldController {
 	public void update(float delta) {
 		processInput();
 		car.update(delta);
-
+		
 		// I got this number of people 
 		int picked_up_people = world.targets.update(car);
+		
+		totalScore += picked_up_people;
 		if (picked_up_people != 0)
 			System.out.println("picked up person! yahoo!" + picked_up_people);
-
+		
 		world.targets.update(car);
-
+		world.scoreBoard.update(totalScore);
+		
 		for(Zombie z : world.zombies){
 			z.update(delta);
 		}
+		
+		System.out.println("total score totalScore: " +totalScore);
 	}
 
 	/** Change Bob's state and parameters based on input controls **/
