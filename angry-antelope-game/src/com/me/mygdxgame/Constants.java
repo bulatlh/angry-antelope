@@ -10,6 +10,7 @@ public class Constants {
 	public static State game_state = GameState.State.MAIN;
 	public static TitleCreater theGreatCreater;
 	
+	public static float ZOMBIESPAWN = .5f;
 	
 	public static final float SPEED = 50f;	// unit per second
 
@@ -64,10 +65,12 @@ public class Constants {
 
 	public static final int DURATION = 5; 
 	
-	public static final int NUMBER_ZOMBIES = 100;
+	public static final int NUMBER_ZOMBIES = 1;
 	public static final int PLAYER_HEALTH = 100;
 	public static final float MIN_ZOMBIE_ACCELERATION = 2;
 	public static final float CAR_BOX_SHIFT_X = -10;
 	public static final float CAR_BOX_SHIFT_Y = -4;
 
+	public static final float HIT_RADIUS = 50;
+	
 }

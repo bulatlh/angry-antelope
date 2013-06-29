@@ -11,15 +11,15 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 
 public class WorldRenderer {
 
-	private World world;
+	public static World world;
 	private OrthographicCamera cam;
 
 	/** for debug rendering **/
 
 	
-	Box2DDebugRenderer box2drenderer;
+	 Box2DDebugRenderer box2drenderer;
 	
-	com.badlogic.gdx.physics.box2d.World box2dworld;
+	public static com.badlogic.gdx.physics.box2d.World box2dworld = new com.badlogic.gdx.physics.box2d.World(new Vector2(0, 0), true);
 		
 	/** For area location **/
 	private long startTime;
@@ -51,7 +51,6 @@ public class WorldRenderer {
 		
 		box2drenderer = new Box2DDebugRenderer();
 
-		box2dworld = new com.badlogic.gdx.physics.box2d.World(new Vector2(0, 0), true);		
 		Car car = world.getCar();
 		
 		for(Zombie z:world.getZombies()){
@@ -72,9 +71,9 @@ public class WorldRenderer {
 		this.cam.update();
 	    spriteBatch.setProjectionMatrix(this.cam.combined);
 		spriteBatch.begin();
-		car.draw(spriteBatch);
 		drawTargets();
 		drawZombies();
+		car.draw(spriteBatch);		
 		drawInterface();
 		spriteBatch.end();
 
@@ -140,8 +139,12 @@ public class WorldRenderer {
 	}
 
 	private void drawZombies() {
+		Car car = world.getCar();		
 		// TODO Auto-generated method stub
 		for(Zombie z:world.getZombies()){
+			if (car.nearby(z) && z.isAlive){
+				z.kill(spriteBatch);
+			}
 			z.draw(spriteBatch);
 		}
 		

@@ -52,6 +52,17 @@ public class Car {
 		carSprite.setSize(bounds.width, bounds.height);
 	}
 	
+	public boolean nearby(Zombie z){
+		float xdiff = getCenterPosition().x - z.getCenterPosition().x;
+		float ydiff = getCenterPosition().y - z.getCenterPosition().y;
+		
+		if (Math.sqrt(xdiff*xdiff + ydiff*ydiff) < Constants.HIT_RADIUS){
+			return true;
+		}
+		return false;
+		
+	}
+	
 	public void draw(SpriteBatch spriteBatch) {		
 		carSprite.setPosition(position.x, position.y);
 		carSprite.setOrigin(bounds.width/2, bounds.height/2);

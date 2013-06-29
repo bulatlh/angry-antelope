@@ -25,13 +25,16 @@ public class Zombie {
 	Rectangle 	bounds = new Rectangle();
 	Sprite sprite;
 	static Texture zombieTexture = new Texture(Gdx.files.internal("images/ambulance/zombie.png"));
-
+	Sprite DEADsprite;
+	static Texture DEADzombieTexture = new Texture(Gdx.files.internal("images/ambulance/bloodstain.png"));
+	
 	Body zombieBody;
 	Fixture zombiePhysicsFixture;
 
-	
+	public boolean isAlive;
 	
 	public Zombie(Vector2 position) {
+		this.isAlive = true;
 		this.rotation = 0;
 		this.acceleration = 0;
 		this.position = position;
@@ -41,9 +44,15 @@ public class Zombie {
 		Sprite temp = new Sprite(zombieTexture);
 		temp.setSize(bounds.width, bounds.height);
 		sprite = temp;
+		
+		Sprite temp2 = new Sprite(DEADzombieTexture);
+		temp2.setSize(bounds.width*2, bounds.height*2);
+		DEADsprite = temp2;
 	}
 	
 	public Body createZombie(com.badlogic.gdx.physics.box2d.World box2dworld) {
+		
+		System.out.println(box2dworld);
 		BodyDef def = new BodyDef();
 		def.type = BodyType.DynamicBody;
 		zombieBody = box2dworld.createBody(def);
@@ -63,12 +72,24 @@ public class Zombie {
 		return zombieBody;
 	}	
 	
+	public void kill(SpriteBatch spriteBatch){
+		this.isAlive = false;
+		zombieBody.setLinearVelocity(0, 0);	
+		zombieBody.setAngularVelocity(0);
+		this.isAlive = false;
+		zombieBody.setLinearVelocity(0, 0);	
+		zombieBody.setAngularVelocity(0);	
+		draw(spriteBatch);
+	}
+	
 	public void rotateCW(com.me.mygdxgame.WorldRenderer renderer, boolean reverse){
 		int mult = -1;
 		if (reverse){
 			mult = 1;
 		}
-		zombieBody.setAngularVelocity(mult*Constants.ROTATE_SPEED);
+		if (this.isAlive){
+			zombieBody.setAngularVelocity(mult*Constants.ROTATE_SPEED);
+		}
 	}
 	
 	public void rotateCCW(com.me.mygdxgame.WorldRenderer renderer, boolean reverse){
@@ -76,7 +97,9 @@ public class Zombie {
 		if (reverse){
 			mult = -1;
 		}	
-		zombieBody.setAngularVelocity(mult*Constants.ROTATE_SPEED);		
+		if (this.isAlive){
+			zombieBody.setAngularVelocity(mult*Constants.ROTATE_SPEED);
+		}
 	}
 	
 	public void rotating(float val){
@@ -103,54 +126,55 @@ public class Zombie {
 	}
 
 	public void follow(float x, float y) {
-		float ydiff = (float) (Math.random()*Constants.HALF_CAR_HEIGHT+ y - position.y);
-		float xdiff = (float) (Math.random()*Constants.HALF_CAR_HEIGHT + x - position.x);
-		
-		float degrees = (float) Math.atan((ydiff)/(xdiff));
-		
-		if (xdiff > 0){
-			degrees = degrees+135;
-		}		
-		if(state == State.IDLE){
-			if(Constants.ZOMBIE_TRACKING_RADIUS > Math.sqrt((position.x-x)*(position.x-x) + (position.y-y)*(position.y-y))){
-				state = State.STALK;				
+		if (this.isAlive){
+			float ydiff = (float) (Math.random()*Constants.HALF_CAR_HEIGHT+ y - position.y);
+			float xdiff = (float) (Math.random()*Constants.HALF_CAR_HEIGHT + x - position.x);
+			
+			float degrees = (float) Math.atan((ydiff)/(xdiff));
+			
+			if (xdiff > 0){
+				degrees = degrees+135;
+			}		
+			if(state == State.IDLE){
+				if(Constants.ZOMBIE_TRACKING_RADIUS > Math.sqrt((position.x-x)*(position.x-x) + (position.y-y)*(position.y-y))){
+					state = State.STALK;				
+				}
+				acceleration = Constants.MIN_ZOMBIE_ACCELERATION;
 			}
-			acceleration = Constants.MIN_ZOMBIE_ACCELERATION;
-		}
-		else if(state == State.STALK){
-			if(Constants.ZOMBIE_TRACKING_RADIUS < Math.sqrt((position.x-x)*(position.x-x) + (position.y-y)*(position.y-y))){
-				state = State.IDLE;
-				rotation = (float) (Math.random()*180);
-			}
-			else{
-				if(Constants.ZOMBIE_ATTACKING_RADIUS > Math.sqrt((position.x-x)*(position.x-x) + (position.y-y)*(position.y-y))){
-					state = State.ATTACK;
-					acceleration = -100;
-					//Call Attack here
-					Car.health --;
+			else if(state == State.STALK){
+				if(Constants.ZOMBIE_TRACKING_RADIUS < Math.sqrt((position.x-x)*(position.x-x) + (position.y-y)*(position.y-y))){
+					state = State.IDLE;
+					rotation = (float) (Math.random()*180);
+				}
+				else{
+					if(Constants.ZOMBIE_ATTACKING_RADIUS > Math.sqrt((position.x-x)*(position.x-x) + (position.y-y)*(position.y-y))){
+						state = State.ATTACK;
+						acceleration = -100;
+						//Call Attack here
+					}
 				}
 			}
-		}
-		else if(state == State.ATTACK){
-			state = State.STALK;
-		}
-		
-		if(state == State.ATTACK || state == State.STALK){
-			this.rotation = (float) Math.toDegrees(degrees)+90;
-		}
-		if(state == State.STALK){
-			acceleration();
-		}
-		if(state == State.IDLE){
-			acceleration = Constants.MIN_ZOMBIE_ACCELERATION;
-		}
-		else{
-			acceleration();
+			else if(state == State.ATTACK){
+				state = State.STALK;
+			}
+			
+			if(state == State.ATTACK || state == State.STALK){
+				this.rotation = (float) Math.toDegrees(degrees)+90;
+			}
+			if(state == State.STALK){
+				acceleration();
+			}
+			if(state == State.IDLE){
+				acceleration = Constants.MIN_ZOMBIE_ACCELERATION;
+			}
+			else{
+				acceleration();
+			}
 		}
 	}
 	
 	public Vector2 getCenterPosition() {
-		return new Vector2(position.x+Constants.CAR_WIDTH/2,position.y+Constants.CAR_HEIGHT/2);
+		return new Vector2(position.x+Constants.ZOMBIE_WIDTH/2,position.y+Constants.ZOMBIE_HEIGHT/2);
 	}	
 	
 	public void acceleration() {
@@ -164,14 +188,23 @@ public class Zombie {
 		
 		float tempRotation = (float) Math.toRadians(rotation + Constants.DEGREE_OFFSET);
 		
-		zombieBody.setLinearVelocity((float) Math.cos(tempRotation)*acceleration, (float) Math.sin(tempRotation)*acceleration);	
-		
+		if (this.isAlive){
+			zombieBody.setLinearVelocity((float) Math.cos(tempRotation)*acceleration, (float) Math.sin(tempRotation)*acceleration);	
+		}
 	}
 	
 	public void draw(SpriteBatch spriteBatch) {
-		sprite.setPosition(zombieBody.getPosition().x + zombieBody.getLocalCenter().x - (bounds.width/2), zombieBody.getPosition().y + zombieBody.getLocalCenter().y  - (bounds.height/2));
-		sprite.setOrigin(bounds.width/2,bounds.height/2);
-		sprite.setRotation(rotation);
-		sprite.draw(spriteBatch);
+		
+		if (this.isAlive){
+			sprite.setPosition(zombieBody.getPosition().x + zombieBody.getLocalCenter().x - (bounds.width/2), zombieBody.getPosition().y + zombieBody.getLocalCenter().y  - (bounds.height/2));
+			sprite.setOrigin(bounds.width/2,bounds.height/2);
+			sprite.setRotation(rotation);
+			sprite.draw(spriteBatch);
+		}else{
+			DEADsprite.setPosition(zombieBody.getPosition().x + zombieBody.getLocalCenter().x - (bounds.width/2), zombieBody.getPosition().y + zombieBody.getLocalCenter().y  - (bounds.height/2));
+			DEADsprite.setOrigin(bounds.width/2,bounds.height/2);
+			DEADsprite.setRotation(rotation);
+			DEADsprite.draw(spriteBatch);			
+		}
 	}
 }
