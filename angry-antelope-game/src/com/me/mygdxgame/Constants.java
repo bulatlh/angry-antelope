@@ -35,9 +35,9 @@ public class Constants {
 	
 	public static final int MAX_VELOCITY = 20;
 	
-	public static final float CAR_BACK_ACCELERATION_SCALE = .25f;
-	public static final float CAR_ACCELERATION = 8;
-	public static final float CAR_MAX_ACCELERATION = 320;
+	public static final float CAR_BACK_ACCELERATION_SCALE = .75f;
+	public static final float CAR_ACCELERATION = 2;
+	public static final float CAR_MAX_ACCELERATION = 160;
 	public static final float ZOMBIE_BACK_ACCELERATION_SCALE = .25f;
 	public static final float ZOMBIE_ACCELERATION = 4;
 	public static final float ZOMBIE_MAX_ACCELERATION = 160;
@@ -54,23 +54,31 @@ public class Constants {
 	public static final int DEGREE_OFFSET = 90;
 	
 	public static final int PICKUP_RADIUS = 100;
-	public static final int ZOMBIE_TRACKING_RADIUS = 200;
+	public static final int ZOMBIE_TRACKING_RADIUS = 600;
 	public static final int ZOMBIE_TRACKING_SIREN_RADIUS = 400;
 	
 	public static final int ZOMBIE_ATTACKING_RADIUS = 50;
 
-	public static final float TURN_THRESHOLD = 1.3f;
+	public static final float TURN_THRESHOLD = 1.5f;
 
 	public static float X_OFFSET = 0; // set this value when start game is pressed.
 
 	public static final int DURATION = 5; 
 	
+<<<<<<< HEAD
 	public static final int NUMBER_ZOMBIES = 1;
+=======
+	
+	public static final int NUMBER_ZOMBIES = 100;
+>>>>>>> master
 	public static final int PLAYER_HEALTH = 100;
 	public static final float MIN_ZOMBIE_ACCELERATION = 2;
 	public static final float CAR_BOX_SHIFT_X = -10;
 	public static final float CAR_BOX_SHIFT_Y = -4;
 
+<<<<<<< HEAD
 	public static final float HIT_RADIUS = 50;
 	
+=======
+>>>>>>> master
 }

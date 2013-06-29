@@ -16,10 +16,10 @@ public class WorldRenderer {
 
 	/** for debug rendering **/
 
-	
 	 Box2DDebugRenderer box2drenderer;
 	
 	public static com.badlogic.gdx.physics.box2d.World box2dworld = new com.badlogic.gdx.physics.box2d.World(new Vector2(0, 0), true);
+
 		
 	/** For area location **/
 	private long startTime;
@@ -71,10 +71,13 @@ public class WorldRenderer {
 		this.cam.update();
 	    spriteBatch.setProjectionMatrix(this.cam.combined);
 		spriteBatch.begin();
+		car.update(Gdx.graphics.getDeltaTime());
 		drawTargets();
 		drawZombies();
 		car.draw(spriteBatch);		
 		drawInterface();
+		car.draw(spriteBatch);
+
 		spriteBatch.end();
 
 		Matrix4 debugMatrix=new Matrix4(cam.combined);
@@ -85,7 +88,11 @@ public class WorldRenderer {
 		
 		//box2drenderer.render(box2dworld, debugMatrix);
 		
-
+		box2dworld.step(Gdx.graphics.getDeltaTime(), 4, 4);		
+		//box2drenderer.render(box2dworld, debugMatrix);
+		
+		/*
+>>>>>>> master
 		// check if in area
 		if (carInArea(car)) {
 			currentTime = System.currentTimeMillis();
@@ -116,7 +123,7 @@ public class WorldRenderer {
 			//System.out.println(car.position);
 			startTime = System.currentTimeMillis();
 		}
-		
+		*/
 	}
 	
 	private boolean carInArea(Car car) {
@@ -133,9 +140,10 @@ public class WorldRenderer {
 	}
 	
 	private void drawTargets() {
+		/*
 		TargetManager manager = world.getTargets();
 		manager.drawTargets(spriteBatch);
-		
+		*/
 	}
 
 	private void drawZombies() {

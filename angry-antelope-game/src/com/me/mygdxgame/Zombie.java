@@ -50,28 +50,6 @@ public class Zombie {
 		DEADsprite = temp2;
 	}
 	
-	public Body createZombie(com.badlogic.gdx.physics.box2d.World box2dworld) {
-		
-		System.out.println(box2dworld);
-		BodyDef def = new BodyDef();
-		def.type = BodyType.DynamicBody;
-		zombieBody = box2dworld.createBody(def);
- 
-		zombieBody.setTransform(bounds.width/2, bounds.height/2, 0);
-		
-		CircleShape poly = new CircleShape();		
-		poly.setRadius(bounds.height/2);
-		//poly.setAsBox(bounds.width/2, bounds.height/2, new Vector2(getCenterPosition().x + Constants.ZOMBIE_BOX_SHIFT_X, getCenterPosition().y + Constants.ZOMBIE_BOX_SHIFT_Y), (float) 0);
-		poly.setPosition(new Vector2(getCenterPosition().x, getCenterPosition().y));
-		
-		
-		zombiePhysicsFixture = zombieBody.createFixture(poly, 10);
-		poly.dispose();				
-  
-		
-		return zombieBody;
-	}	
-	
 	public void kill(SpriteBatch spriteBatch){
 		this.isAlive = false;
 		zombieBody.setLinearVelocity(0, 0);	
@@ -81,6 +59,25 @@ public class Zombie {
 		zombieBody.setAngularVelocity(0);	
 		draw(spriteBatch);
 	}
+	
+	public Body createZombie(com.badlogic.gdx.physics.box2d.World box2dworld) {
+		BodyDef def = new BodyDef();
+		def.type = BodyType.DynamicBody;
+		zombieBody = box2dworld.createBody(def);
+ 
+		zombieBody.setTransform(bounds.width/2, bounds.height/2, 0);
+		
+		CircleShape poly = new CircleShape();		
+		poly.setRadius(bounds.height/2);
+		poly.setPosition(new Vector2(getCenterPosition().x, getCenterPosition().y));
+		
+		
+		zombiePhysicsFixture = zombieBody.createFixture(poly, 10);
+		poly.dispose();				
+  
+		
+		return zombieBody;
+	}	
 	
 	public void rotateCW(com.me.mygdxgame.WorldRenderer renderer, boolean reverse){
 		int mult = -1;

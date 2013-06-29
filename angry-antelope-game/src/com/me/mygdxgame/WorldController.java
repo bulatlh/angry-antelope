@@ -147,8 +147,6 @@ public class WorldController {
 		if (keys.get(Keys.RIGHT)) {
 			car.rotateCW(renderer,keys.get(Keys.DOWN));
 		}
-
-
 		if (keys.get(Keys.UP)) {
 			car.acceleration(1);
 		}
