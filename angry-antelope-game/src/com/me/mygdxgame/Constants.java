@@ -1,7 +1,16 @@
 package com.me.mygdxgame;
 
+import com.me.mygdxgame.controller.GameState;
+import com.me.mygdxgame.controller.TitleCreater;
+import com.me.mygdxgame.controller.GameState.State;
+import com.me.mygdxgame.controller.StateController;
+
 public class Constants {
 
+	public static State game_state = GameState.State.MAIN;
+	public static TitleCreater theGreatCreater;
+	
+	
 	public static final float SPEED = 50f;	// unit per second
 
 	public static final float ROTATE_SPEED = 1.5f; // half a unit
