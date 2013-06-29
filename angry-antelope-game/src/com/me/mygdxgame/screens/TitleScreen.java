@@ -1,15 +1,16 @@
 package com.me.mygdxgame.screens;
 
+import java.util.ArrayList;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Vector2;
 import com.me.mygdxgame.Constants;
 import com.me.mygdxgame.GameScreen;
-import com.me.mygdxgame.controller.GameState;
+import com.me.mygdxgame.ui.ButtonObject;
 
 public class TitleScreen implements Screen, InputProcessor {
 
@@ -18,11 +19,22 @@ public class TitleScreen implements Screen, InputProcessor {
 	TitleScreenRenderer renderer = new TitleScreenRenderer();
 	SpriteBatch batch = new SpriteBatch();
 	
-	Vector2 startGamePosBotLeft = new Vector2(67,757);
-	Vector2 startGamePosTopRight = new Vector2(411,617);
+	ArrayList<ButtonObject> buttons;
+	
 	
 	public TitleScreen(){
 		Texture.setEnforcePotImages(false);
+		buttons = new ArrayList<ButtonObject>();
+//		Texture txr = new Texture(Gdx.files.internal("images/button/start.png"));
+		
+		ButtonObject button = new ButtonObject(150, 50, 100, 200);
+		buttons.add(button);
+//		txr = new Texture(Gdx.files.internal("images/button/rules.png"));
+		button = new ButtonObject(500, 50, 100, 200);
+		buttons.add(button);
+//		txr = new Texture(Gdx.files.internal("images/button/achievements.png"));
+		button = new ButtonObject(800, 50, 100, 200);
+		buttons.add(button);
 	}
 	@Override
 	public void render(float delta) {
@@ -44,7 +56,8 @@ public class TitleScreen implements Screen, InputProcessor {
 
 	@Override
 	public void show() {
-		// TODO Auto-generated method stub
+		
+		Gdx.input.setInputProcessor(this);
 
 	}
 
@@ -68,8 +81,7 @@ public class TitleScreen implements Screen, InputProcessor {
 
 	@Override
 	public void dispose() {
-		// TODO Auto-generated method stub
-
+	
 	}
 
 	@Override
@@ -96,25 +108,40 @@ public class TitleScreen implements Screen, InputProcessor {
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
 		// TODO Auto-generated method stub
-		System.out.println("OMG IM TOUCHING THIS "+screenX+screenY);
-		if(screenX < startGamePosTopRight.x && screenX > startGamePosBotLeft.x){
-			if(screenY < startGamePosTopRight.y && screenY > startGamePosBotLeft.y){
-				//go to Game Screen
-				Constants.theGreatCreater.setScreen(new GameScreen());
-			}
-		}
+//		System.out.println("OMG IM TOUCHING THIS "+screenX+screenY);
+//		if(screenX < startGamePosTopRight.x && screenX > startGamePosBotLeft.x){
+//			if(screenY < startGamePosTopRight.y && screenY > startGamePosBotLeft.y){
+//				//go to Game Screen
+//				Constants.theGreatCreater.setScreen(new GameScreen());
+//			}
+//		}
 		return true;
 	}
 
 	@Override
 	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
 		System.out.println("OMG IM TOUCHING THIS "+screenX+screenY);
-		if(screenX < startGamePosTopRight.x && screenX > startGamePosBotLeft.x){
-			if(screenY < startGamePosTopRight.y && screenY > startGamePosBotLeft.y){
-				//go to Game Screen
-				Constants.theGreatCreater.setScreen(new GameScreen());
+		
+		for(int i = 0; i < buttons.size(); ++i){
+			if (buttons.get(i).isClicked(screenX, screenY)){
+				System.out.println("clicked in");
+				switch (i){
+					case 0:  
+//						Constants.theGreatCreater.setScreen(new GameScreen());
+						break; 
+					case 1: 
+//						Constants.theGreatCreater.setScreen(new GameScreen());
+						break;
+					case 2: 
+//						Constants.theGreatCreater.setScreen(new GameScreen());
+						break;
+					default: 
+						break;
+				}
 			}
 		}
+		
+			
 		return true;
 	}
 
