@@ -9,6 +9,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.Texture;
+import com.me.mygdxgame.ui.ButtonObject;
 
 public class GameScreen implements Screen, InputProcessor {
 

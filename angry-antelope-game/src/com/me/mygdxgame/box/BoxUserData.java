@@ -5,7 +5,6 @@ public class BoxUserData {
 	public int BodyCollisionGroup;
 	
 	
-	
 	public BoxUserData(int index,int group)
 	{
 		SetIndex(index);

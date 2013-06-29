@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.me.mygdxgame.ui.ScoreBoard;
 
 public class World {
 
@@ -14,7 +15,8 @@ public class World {
 	ArrayList<Body> zombieBodies;
 	
 	public Map map;
-
+	ScoreBoard scoreBoard; 
+		
 
 	public Car getCar() {
 		return car;
@@ -40,7 +42,9 @@ public class World {
 		
 		targets.addTarget(400, 400);
 		targets.addTarget(800, 400);
-
+		
+		scoreBoard = new ScoreBoard("User");
+		
 		zombies = new ArrayList<Zombie>();
 		zombieBodies = new ArrayList<Body>();
 		for (int i=0;i<Constants.NUMBER_ZOMBIES;i++){

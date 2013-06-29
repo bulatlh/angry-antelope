@@ -5,45 +5,36 @@ import java.util.ArrayList;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.graphics.GL10;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.me.mygdxgame.Constants;
-import com.me.mygdxgame.GameScreen;
 import com.me.mygdxgame.ui.ButtonObject;
 
-public class TitleScreen implements Screen, InputProcessor {
+public class RullezScreen implements Screen, InputProcessor {
 
-	Texture titleTexture = new Texture(Gdx.files.internal("images/workingTitleScreen.png"));
+	Texture titleTexture = new Texture(Gdx.files.internal("images/Rules.png"));
 	
 	TitleScreenRenderer renderer = new TitleScreenRenderer();
 	SpriteBatch batch = new SpriteBatch();
 	
 	ArrayList<ButtonObject> buttons;
-	Music main_menue;
 	
-	public TitleScreen(){
+	
+	public RullezScreen(){
 		Texture.setEnforcePotImages(false);
 		buttons = new ArrayList<ButtonObject>();
-//		Texture txr = new Texture(Gdx.files.internal("images/button/start.png"));
-		main_menue = Gdx.audio.newMusic(Gdx.files.internal("sounds/menue.mp3"));
 		ButtonObject button = new ButtonObject(68, 752, 137, 321);
-		main_menue.play();
 		buttons.add(button);
-//		txr = new Texture(Gdx.files.internal("images/button/rules.png"));
-		button = new ButtonObject(464, 50, 137, 321);
-		buttons.add(button);
-//		txr = new Texture(Gdx.files.internal("images/button/achievements.png"));
-		button = new ButtonObject(864, 752, 137, 321);
-		buttons.add(button);
+		
+		
 	}
 	@Override
 	public void render(float delta) {
 		// TODO Auto-generated method stub
-		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT); 
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT); 
 		batch.begin();
-	    batch.draw(titleTexture, 0, 0);
+	    batch.draw(titleTexture, 200, 150);
 	    batch.end();
 //		renderer.render();
 //	    Constants.theGreatCreater.setScreen(new GameScreen());
@@ -105,39 +96,15 @@ public class TitleScreen implements Screen, InputProcessor {
 
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-		// TODO Auto-generated method stub
-//		System.out.println("OMG IM TOUCHING THIS "+screenX+screenY);
-//		if(screenX < startGamePosTopRight.x && screenX > startGamePosBotLeft.x){
-//			if(screenY < startGamePosTopRight.y && screenY > startGamePosBotLeft.y){
-//				//go to Game Screen
-//				Constants.theGreatCreater.setScreen(new GameScreen());
-//			}
-//		}
+//		
 		return true;
 	}
 
 	@Override
 	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+		System.out.println("OMG IM TOUCHING THIS "+screenX + " - " +screenY);
 		
-		for(int i = 0; i < buttons.size(); ++i){
-			if (buttons.get(i).isClicked(screenX, screenY)){
-				switch (i){
-					case 0:  
-						main_menue.stop();
-						Constants.theGreatCreater.setScreen(new GameScreen());
-						break; 
-					case 1:
-						main_menue.stop();
-						Constants.theGreatCreater.setScreen(new RullezScreen());
-						break;
-					case 2: 
-//						Constants.theGreatCreater.setScreen(new GameScreen());
-						break;
-					default: 
-						break;
-				}
-			}
-		}
+		Constants.theGreatCreater.setScreen(new TitleScreen());
 		
 			
 		return true;
@@ -162,3 +129,4 @@ public class TitleScreen implements Screen, InputProcessor {
 	}
 
 }
+

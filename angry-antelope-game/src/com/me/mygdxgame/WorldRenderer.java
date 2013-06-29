@@ -76,10 +76,14 @@ public class WorldRenderer {
 		drawZombies();
 		car.draw(spriteBatch);		
 		drawInterface();
+<<<<<<< HEAD
 		car.draw(spriteBatch);
 
+=======
+		drawScore();
+>>>>>>> afe0538af75b0bf55fca9ab5f5af49073f6b53e0
 		spriteBatch.end();
-
+		
 		Matrix4 debugMatrix=new Matrix4(cam.combined);
 		 
 		debugMatrix.scale(1, 1, 1f);
@@ -160,6 +164,10 @@ public class WorldRenderer {
 
 	private void drawInterface() {
 		
+	}
+	
+	private void drawScore(){
+		world.scoreBoard.draw(spriteBatch);
 	}
 	
 	public void rotating(float val){
