@@ -12,11 +12,9 @@ public class ButtonObject {
 	private Vector2 position = new Vector2();
 	private int width;
 	private int height;
-	private Texture texture;
 	private ButtonState state = ButtonState.NOT_PRESSED;
 	
 	public ButtonObject(Texture t, int x, int y){
-		texture = t;
 		height = t.getHeight();
 		width = t.getWidth();
 		position.x = x;
@@ -49,9 +47,6 @@ public class ButtonObject {
 	}
 
 	public boolean isClicked(int x, int y){
-		
-		System.out.println("Clicked here " + x + ", "+ y);
-		System.out.println("BUTTON here " + position.x + ", "+ position.y);
 		
 		if ( x >= position.x  && x < position.x + width){
 				return true;

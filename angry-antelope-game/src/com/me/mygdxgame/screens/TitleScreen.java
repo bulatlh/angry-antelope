@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -20,14 +21,15 @@ public class TitleScreen implements Screen, InputProcessor {
 	SpriteBatch batch = new SpriteBatch();
 	
 	ArrayList<ButtonObject> buttons;
-	
+	Music main_menue;
 	
 	public TitleScreen(){
 		Texture.setEnforcePotImages(false);
 		buttons = new ArrayList<ButtonObject>();
 //		Texture txr = new Texture(Gdx.files.internal("images/button/start.png"));
-		
+		main_menue = Gdx.audio.newMusic(Gdx.files.internal("sounds/menue.mp3"));
 		ButtonObject button = new ButtonObject(68, 752, 137, 321);
+		main_menue.play();
 		buttons.add(button);
 //		txr = new Texture(Gdx.files.internal("images/button/rules.png"));
 		button = new ButtonObject(464, 50, 137, 321);
@@ -116,23 +118,20 @@ public class TitleScreen implements Screen, InputProcessor {
 
 	@Override
 	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-		System.out.println("OMG IM TOUCHING THIS "+screenX + " - " +screenY);
 		
 		for(int i = 0; i < buttons.size(); ++i){
 			if (buttons.get(i).isClicked(screenX, screenY)){
-				System.out.println("clicked in");
 				switch (i){
 					case 0:  
-						System.out.println("0");
+						main_menue.stop();
 						Constants.theGreatCreater.setScreen(new GameScreen());
 						break; 
-					case 1: 
+					case 1:
+						main_menue.stop();
 						Constants.theGreatCreater.setScreen(new RullezScreen());
-						System.out.println("1");
 						break;
 					case 2: 
 //						Constants.theGreatCreater.setScreen(new GameScreen());
-						System.out.println("2");
 						break;
 					default: 
 						break;

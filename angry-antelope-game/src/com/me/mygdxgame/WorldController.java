@@ -79,8 +79,6 @@ public class WorldController {
 		int picked_up_people = world.targets.update(car);
 		
 		totalScore += picked_up_people;
-		if (picked_up_people != 0)
-			System.out.println("picked up person! yahoo!" + picked_up_people);
 		
 		world.targets.update(car);
 		world.scoreBoard.update(totalScore);
@@ -89,7 +87,7 @@ public class WorldController {
 			z.update(delta);
 		}
 		
-		System.out.println("total score totalScore: " +totalScore);
+//		System.out.println("total score totalScore: " +totalScore);
 	}
 
 	/** Change Bob's state and parameters based on input controls **/
