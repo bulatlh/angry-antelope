@@ -86,16 +86,14 @@ public class WorldController {
 		}
 		
 		if (keys.get(Keys.UP)) {
-			car.setState(State.IDLE);
 			car.acceleration(1);
 		}
 		if (keys.get(Keys.DOWN)) {
-			car.setState(State.IDLE);
 			car.acceleration(-1);		
 		}
 		// need to check if both or none direction are pressed, then Bob is idle
 		if ((!keys.get(Keys.UP)  && !keys.get(Keys.DOWN))) {
-			
+			car.applyFriction();
 		}
 	}
 

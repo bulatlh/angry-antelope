@@ -55,13 +55,13 @@ public class WorldRenderer {
 		
 		Car car = world.getCar();
 		Rectangle rect = car.getBounds();
-		carSprite.setSize(Constants.CAR_SCALAR * rect.width,Constants.CAR_SCALAR * rect.height);
+		carSprite.setSize(rect.width, rect.height);
 	}
 
 	public void render() {
 		Car car = world.getCar();
 		
-		//this.cam.position.set(car.getPosition().x + (Constants.SIZE/2), car.getPosition().y + (Constants.SIZE/2), 0);
+		//this.cam.position.set(car.getCenterPosition().x, car.getCenterPosition().y, 0);
 				
 		this.cam.update();
 	    spriteBatch.setProjectionMatrix(this.cam.combined);
@@ -70,22 +70,29 @@ public class WorldRenderer {
 		spriteBatch.end();
 //		if (true){
 		if(debug){
-
 			drawDebug();
 		}
 	}
 	
 	public void rotateCW(){
-		this.rotating(-1*Constants.ROTATE_SPEED);
+		int mult = -1;
+		if (world.getCar().getAcceleration() < 0){
+			mult = 1;
+		}		
+		this.rotating(mult*Constants.ROTATE_SPEED);
 	}
 	
 	public void rotateCCW(){
-		this.rotating(Constants.ROTATE_SPEED);
+		int mult = 1;
+		if (world.getCar().getAcceleration() < 0){
+			mult = -1;
+		}		
+		this.rotating(mult*Constants.ROTATE_SPEED);
 	}
 	
 	public void rotating(float val){
 //		System.out.println("!");
-//		this.cam.rotate(-1*val);
+		//this.cam.rotate(-1*val);
 		this.cam.update();
 	}
 	
