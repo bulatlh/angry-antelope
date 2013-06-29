@@ -40,7 +40,7 @@ public class World {
 		targets.addTarget(400, 400);
 		targets.addTarget(800, 400);
 		
-		scoreBoard = new ScoreBoard("Bulat");
+		scoreBoard = new ScoreBoard("User");
 		
 		zombies = new ArrayList<Zombie>();
 		for (int i=0;i<Constants.NUMBER_ZOMBIES;i++){
