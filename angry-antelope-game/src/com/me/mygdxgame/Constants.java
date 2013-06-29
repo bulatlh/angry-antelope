@@ -36,6 +36,8 @@ public class Constants {
 	public static final int ZOMBIE_TRACKING_RADIUS = 200;
 	public static final int ZOMBIE_TRACKING_SIREN_RADIUS = 400;
 
-	public static final float TURN_THRESHOLD = 2;
+	public static final float TURN_THRESHOLD = 1.3f;
+
+	public static float X_OFFSET = 0; // set this value when start game is pressed.
 	
 }

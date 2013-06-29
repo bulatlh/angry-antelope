@@ -67,6 +67,7 @@ public class WorldRenderer {
 	    spriteBatch.setProjectionMatrix(this.cam.combined);
 		spriteBatch.begin();
 		drawCar();
+		drawInterface();
 		spriteBatch.end();
 //		if (true){
 		if(debug){
@@ -74,6 +75,10 @@ public class WorldRenderer {
 		}
 	}
 	
+	private void drawInterface() {
+		
+	}
+
 	public void rotateCW(){
 		int mult = -1;
 		if (world.getCar().getAcceleration() < 0){
@@ -91,7 +96,6 @@ public class WorldRenderer {
 	}
 	
 	public void rotating(float val){
-//		System.out.println("!");
 		//this.cam.rotate(-1*val);
 		this.cam.update();
 	}

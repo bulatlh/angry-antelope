@@ -1,5 +1,7 @@
 package com.me.mygdxgame;
 
+import java.util.ArrayList;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Application.ApplicationType;
 import com.badlogic.gdx.Input.Keys;
@@ -8,14 +10,13 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
-import com.me.mygdxgame.renderers.WorldRenderer;
 
 public class GameScreen implements Screen, InputProcessor {
 
 	private World world;
 	private WorldRenderer renderer;
 	private WorldController controller;
-	private ButtonObject menu;
+	private ArrayList<ButtonObject> menuButtons;
 	
 	
 	@Override
@@ -38,7 +39,9 @@ public class GameScreen implements Screen, InputProcessor {
 		world = new World();
 		renderer = new WorldRenderer(world, false);
 		controller = new WorldController(world, renderer);
-		menu = new ButtonObject(new Texture(Gdx.files.internal("images/pauseGame.png")),1000,700);
+		menuButtons = new ArrayList<ButtonObject>();
+		ButtonObject b = new ButtonObject(new Texture(Gdx.files.internal("images/pauseGame.png")),500,300);
+		menuButtons.add(b);
 		Gdx.input.setInputProcessor(this);
 	}
 
@@ -108,8 +111,10 @@ public class GameScreen implements Screen, InputProcessor {
 
 	@Override
 	public boolean touchDown(int x, int y, int pointer, int button) {
-		if(menu.clickedButton(x, y)){
-			menu.pressed();
+		for(ButtonObject button1: menuButtons){
+			if(button1.clickedButton(x, y)){
+				button1.pressed();
+			}
 		}
 		return true;
 	}

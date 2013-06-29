@@ -13,7 +13,7 @@ public class Car {
 	float rotation;
 	
 	Vector2 	position = new Vector2();
-	private float   	acceleration;
+	float   	acceleration;
 	Vector2 	velocity = new Vector2();
 	Rectangle 	bounds = new Rectangle();
 	State		state = State.IDLE;
@@ -26,24 +26,25 @@ public class Car {
 		this.bounds.width = Constants.CAR_WIDTH;
 	}
 	
-	public void rotateCW(){
+	public void rotateCW(com.me.mygdxgame.WorldRenderer renderer, boolean reverse){
 		int mult = -1;
-		if (acceleration < 0){
+		if (reverse){
 			mult = 1;
 		}
-		this.rotating(mult*Constants.ROTATE_SPEED);
+		this.rotating(mult*Constants.ROTATE_SPEED,renderer);
 	}
 	
-	public void rotateCCW(){
+	public void rotateCCW(com.me.mygdxgame.WorldRenderer renderer, boolean reverse){
 		int mult = 1;
-		if (acceleration < 0){
+		if (reverse){
 			mult = -1;
 		}		
-		this.rotating(mult*Constants.ROTATE_SPEED);
+		this.rotating(mult*Constants.ROTATE_SPEED,renderer);
 	}
 	
-	public void rotating(float val){
+	public void rotating(float val,WorldRenderer renderer){
 		rotation += val;
+		renderer.rotating(val);
 	}
 	
 	public float getRotation(){

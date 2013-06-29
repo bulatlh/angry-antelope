@@ -3,6 +3,7 @@ package com.me.mygdxgame;
 import com.me.mygdxgame.GameScreen;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
 
 public class AmbulanceCreater extends Game {
 

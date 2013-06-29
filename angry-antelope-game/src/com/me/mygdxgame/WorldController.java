@@ -8,7 +8,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Application.ApplicationType;
 import com.me.mygdxgame.Car;
 import com.me.mygdxgame.Car.State;
-import com.me.mygdxgame.renderers.WorldRenderer;
 import com.me.mygdxgame.World;
 
 public class WorldController {
@@ -77,29 +76,45 @@ public class WorldController {
 
 	/** Change Bob's state and parameters based on input controls **/
 	private void processInput() {
-		if (keys.get(Keys.LEFT)) {
-			car.rotateCCW();
-			renderer.rotateCCW();
-		}
-		if (keys.get(Keys.RIGHT)) {
-			car.rotateCW();
-			renderer.rotateCW();
-		}
-		
 		if (Gdx.app.getType().equals(ApplicationType.Android)){
 			if(Gdx.input.getAccelerometerY() > Constants.TURN_THRESHOLD){
-				car.rotateCW(); //+Constants.ROTATION_SCALAR;
+				rightPressed(); //+Constants.ROTATION_SCALAR;
+				leftReleased();
 			}
 			else if(Gdx.input.getAccelerometerY() < -1* Constants.TURN_THRESHOLD){
-				car.rotateCCW();
+				leftPressed();
+				rightReleased();
 			}
-			if (Gdx.input.getAccelerometerX() > Constants.TURN_THRESHOLD){
-				car.acceleration(-1);
+			else{
+				rightReleased();
+				leftReleased();
 			}
-			else if(Gdx.input.getAccelerometerX()< -1*Constants.TURN_THRESHOLD){
-				car.acceleration(1);
+			if (Gdx.input.getAccelerometerX() > Constants.X_OFFSET + Constants.TURN_THRESHOLD){
+				downPressed();
+				upReleased();
 			}
+			else if(Gdx.input.getAccelerometerX() < Constants.X_OFFSET + -1*Constants.TURN_THRESHOLD){
+				upPressed();
+				downReleased();
+			}//*/
+			else {
+				upReleased();
+				downReleased();
+			}
+//			car.acceleration -= Gdx.input.getAccelerometerX()*5;
+			System.out.println(Gdx.input.getAccelerometerX());
+//			if(Math.abs(car.acceleration) > Constants.CAR_MAX_ACCELERATION){
+//				car.acceleration = (car.acceleration/Math.abs(car.acceleration))*Constants.CAR_MAX_ACCELERATION;
+//			}
 //			acceleration = (float) (Gdx.input.getAccelerometerX()*-1*Constants.ACCELEROMETER_SCALAR);
+			// need to check if both or none direction are pressed, then Bob is idle
+			
+		}	
+		if (keys.get(Keys.LEFT)) {
+			car.rotateCCW(renderer,keys.get(Keys.DOWN));
+		}
+		if (keys.get(Keys.RIGHT)) {
+			car.rotateCW(renderer,keys.get(Keys.DOWN));
 		}
 		
 		if (keys.get(Keys.UP)) {

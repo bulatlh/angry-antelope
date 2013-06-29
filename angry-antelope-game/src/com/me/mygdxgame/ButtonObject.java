@@ -40,5 +40,9 @@ public class ButtonObject {
 		}
 		return false;
 	}
+
+	public void render() {
+		
+	}
 	
 }
