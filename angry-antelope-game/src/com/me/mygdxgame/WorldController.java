@@ -73,6 +73,8 @@ public class WorldController {
 	public void update(float delta) {
 		processInput();
 
+		car.update(delta);
+		
 		world.targets.update(car);
 
 		for(Zombie z : world.zombies){
