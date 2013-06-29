@@ -26,8 +26,8 @@ public class ScoreBoard {
 		
 		v = Car.getPosition();
 		
-		v.x -= 100;
-		v.y -= 100;
+		v.x -= 200;
+		v.y -= 200;
 	}
 	
 	public void update(int score){

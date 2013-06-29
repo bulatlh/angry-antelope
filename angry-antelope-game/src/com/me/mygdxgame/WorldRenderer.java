@@ -20,12 +20,6 @@ public class WorldRenderer {
 	
 	public static com.badlogic.gdx.physics.box2d.World box2dworld = new com.badlogic.gdx.physics.box2d.World(new Vector2(0, 0), true);
 
-		
-	/** For area location **/
-	private long startTime;
-	private long currentTime;
-	private boolean inArea = false;
-	private final int DURATION = 5; 
 	
 	/** Textures **/
 	private SpriteBatch spriteBatch;
@@ -34,6 +28,7 @@ public class WorldRenderer {
 	private int height;
 	private float ppuX;	// pixels per unit on the X axis
 	private float ppuY;	// pixels per unit on the Y axis
+	
 	public void setSize (int w, int h) {
 		this.width = w;
 		this.height = h;
@@ -51,8 +46,6 @@ public class WorldRenderer {
 		
 		box2drenderer = new Box2DDebugRenderer();
 
-		Car car = world.getCar();
-		
 		for(Zombie z:world.getZombies()){
 			Body zombieBody = z.createZombie(box2dworld);
 			zombieBody.setFixedRotation(true);	
@@ -72,14 +65,19 @@ public class WorldRenderer {
 	    spriteBatch.setProjectionMatrix(this.cam.combined);
 		spriteBatch.begin();
 		car.update(Gdx.graphics.getDeltaTime());
-		
+
 		drawZombies();
 		drawTargets();
 		
 		car.draw(spriteBatch);		
+		drawTargets();
 		drawInterface();
 
+
 		drawScore();
+
+		car.draw(spriteBatch);
+		
 		spriteBatch.end();
 		
 		Matrix4 debugMatrix=new Matrix4(cam.combined);
@@ -92,59 +90,12 @@ public class WorldRenderer {
 		
 		box2dworld.step(Gdx.graphics.getDeltaTime(), 4, 4);		
 		//box2drenderer.render(box2dworld, debugMatrix);
-		
-		/*
-		// check if in area
-		if (carInArea(car)) {
-			currentTime = System.currentTimeMillis();
-			
-			// we were previously in the area
-			if (inArea) {
-				// check if done
-				int differenceTime = (int) ((currentTime - startTime) / 1000);
-				
-				// calculate the time remaining in area
-				int remainingTime = DURATION - differenceTime;
-				
-				if (remainingTime <= 0) {
-					System.out.println("DONE");
-					inArea = false;
-				} else {
-					System.out.println("TIME LEFT " + remainingTime + " SECONDS");
-				}
-				
-			} else {
-				System.out.println("WELCOME TO LOADING ZONE");
-				// set boolean to true
-				inArea = true;
-				// make start = time
-				startTime = System.currentTimeMillis();
-			}
-		} else {
-			//System.out.println(car.position);
-			startTime = System.currentTimeMillis();
-		}
-		*/
 	}
-	
-	private boolean carInArea(Car car) {
-		float x = car.position.x;
-		float y = car.position.y;
-		
-		if (x < 500 && x > 300) {
-			if ( y < 500 && y > 300) {
-				return true;
-			}
-		}
-		
-		return false;
-	}
+
 	
 	private void drawTargets() {
-		/*
 		TargetManager manager = world.getTargets();
 		manager.drawTargets(spriteBatch);
-		*/
 	}
 
 	private void drawZombies() {

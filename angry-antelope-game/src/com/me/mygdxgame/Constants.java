@@ -1,15 +1,15 @@
 package com.me.mygdxgame;
 
 import com.me.mygdxgame.controller.GameState;
-import com.me.mygdxgame.controller.TitleCreater;
 import com.me.mygdxgame.controller.GameState.State;
+import com.me.mygdxgame.controller.TitleCreater;
 
 public class Constants {
 
 	public static State game_state = GameState.State.MAIN;
 	public static TitleCreater theGreatCreater;
 	
-	public static float ZOMBIESPAWN = .5f;
+	public static float ZOMBIESPAWN = .05f;
 	
 	public static final float SPEED = 50f;	// unit per second
 
@@ -55,7 +55,7 @@ public class Constants {
 	public static final int DEGREE_OFFSET = 90;
 	
 	public static final int PICKUP_RADIUS = 100;
-	public static final int ZOMBIE_TRACKING_RADIUS = 600;
+	public static final int ZOMBIE_TRACKING_RADIUS = 1000;
 	public static final int ZOMBIE_TRACKING_SIREN_RADIUS = 400;
 	
 	public static final int ZOMBIE_ATTACKING_RADIUS = 50;
@@ -66,7 +66,10 @@ public class Constants {
 
 	public static final int DURATION = 5; 
 	
-	public static final int NUMBER_ZOMBIES = 100;
+
+	public static final int NUMBER_ZOMBIES = 300;
+
+
 	public static final int PLAYER_HEALTH = 100;
 	public static final float MIN_ZOMBIE_ACCELERATION = 2;
 	public static final float CAR_BOX_SHIFT_X = -10;

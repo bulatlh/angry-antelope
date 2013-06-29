@@ -4,12 +4,13 @@ package com.me.mygdxgame;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Application.ApplicationType;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.me.mygdxgame.Car;
 import com.me.mygdxgame.World;
+
 
 public class WorldController {
 
@@ -22,7 +23,8 @@ public class WorldController {
 	private World 	world;
 	private WorldRenderer renderer;
 	private Car 	car;
-
+	
+	
 	private int totalScore = 0;
 	
 	static Map<Keys, Boolean> keys = new HashMap<WorldController.Keys, Boolean>();
@@ -134,13 +136,7 @@ public class WorldController {
 				upReleased();
 				downReleased();
 			}
-			//			car.acceleration -= Gdx.input.getAccelerometerX()*5;
 			System.out.println(Gdx.input.getAccelerometerX());
-			//			if(Math.abs(car.acceleration) > Constants.CAR_MAX_ACCELERATION){
-			//				car.acceleration = (car.acceleration/Math.abs(car.acceleration))*Constants.CAR_MAX_ACCELERATION;
-			//			}
-			//			acceleration = (float) (Gdx.input.getAccelerometerX()*-1*Constants.ACCELEROMETER_SCALAR);
-			// need to check if both or none direction are pressed, then Bob is idle
 
 		}	
 		if (keys.get(Keys.LEFT)) {
