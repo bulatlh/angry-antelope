@@ -20,6 +20,12 @@ public class WorldRenderer {
 	private World world;
 	private OrthographicCamera cam;
 
+	/** For area location **/
+	private long startTime;
+	private long currentTime;
+	private boolean inArea = false;
+	private final int DURATION = 5; 
+	
 	/** for debug rendering **/
 	ShapeRenderer debugRenderer = new ShapeRenderer();
 
@@ -73,8 +79,52 @@ public class WorldRenderer {
 		if(debug){
 			drawDebug();
 		}
+		
+		// check if in area
+		if (carInArea(car)) {
+			currentTime = System.currentTimeMillis();
+			
+			// we were previously in the area
+			if (inArea) {
+				// check if done
+				int differenceTime = (int) ((currentTime - startTime) / 1000);
+				
+				// calculate the time remaining in area
+				int remainingTime = DURATION - differenceTime;
+				
+				if (remainingTime <= 0) {
+					System.out.println("DONE");
+					inArea = false;
+				} else {
+					System.out.println("TIME LEFT " + remainingTime + " SECONDS");
+				}
+				
+			} else {
+				System.out.println("WELCOME TO LOADING ZONE");
+				// set boolean to true
+				inArea = true;
+				// make start = time
+				startTime = System.currentTimeMillis();
+			}
+		} else {
+			System.out.println(car.position);
+			startTime = System.currentTimeMillis();
+		}
 	}
 	
+	private boolean carInArea(Car car) {
+		float x = car.position.x;
+		float y = car.position.y;
+		
+		if (x < 500 && x > 300) {
+			if ( y < 500 && y > 300) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
+
 	private void drawInterface() {
 		
 	}

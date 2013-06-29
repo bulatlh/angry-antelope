@@ -10,6 +10,7 @@ public class TitleCreater extends Game {
 
 	@Override
 	public void create() {
-		setScreen(new TitleScreen());
+		//setScreen(new TitleScreen());
+		setScreen(new GameScreen());
 	}
 }
