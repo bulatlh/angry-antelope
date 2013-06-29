@@ -77,6 +77,9 @@ public class WorldController {
 	/** Change Bob's state and parameters based on input controls **/
 	private void processInput() {
 		if (Gdx.app.getType().equals(ApplicationType.Android)){
+			if(Gdx.app.getInput().isTouched(0)) {
+				System.out.println("CYA NERDS");
+			}
 			if(Gdx.input.getAccelerometerY() > Constants.TURN_THRESHOLD){
 				rightPressed(); //+Constants.ROTATION_SCALAR;
 				leftReleased();
