@@ -1,6 +1,8 @@
 package com.me.mygdxgame;
 
 
+import java.util.ArrayList;
+
 import com.me.mygdxgame.Car;
 import com.me.mygdxgame.World;
 import com.badlogic.gdx.Gdx;
@@ -25,6 +27,7 @@ public class WorldRenderer {
 
 	/** Textures **/
 	private Texture carTexture;
+	private Texture zombieTexture;
 	private Sprite carSprite;
 	private SpriteBatch spriteBatch;
 	private boolean debug = false;
@@ -52,7 +55,6 @@ public class WorldRenderer {
 	private void loadTextures() {
 		carTexture = new  Texture(Gdx.files.internal("images/ambulance/ambulance-1.png"));
 		carSprite = new Sprite(carTexture);
-		
 		Car car = world.getCar();
 		Rectangle rect = car.getBounds();
 		carSprite.setSize(rect.width, rect.height);
@@ -67,6 +69,7 @@ public class WorldRenderer {
 	    spriteBatch.setProjectionMatrix(this.cam.combined);
 		spriteBatch.begin();
 		drawCar();
+		drawZombies();
 		drawInterface();
 		spriteBatch.end();
 //		if (true){
@@ -107,6 +110,15 @@ public class WorldRenderer {
 		carSprite.setOrigin(carSprite.getWidth()/2,carSprite.getHeight()/2);
 		carSprite.setRotation(car.getRotation());
 		carSprite.draw(spriteBatch);
+	}
+	private void drawZombies(){
+		ArrayList<Zombie> zombies = world.getZombies();
+		int i;
+		System.out.println("OMG ZOMBIES");
+		for(i=0; i<zombies.size();i++){
+			Zombie z = zombies.get(i);
+			z.draw(spriteBatch);
+		}
 	}
 
 	private void drawDebug() {

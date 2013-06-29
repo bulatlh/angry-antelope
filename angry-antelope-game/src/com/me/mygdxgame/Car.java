@@ -12,6 +12,7 @@ public class Car {
 	}
 	float rotation;
 	
+	public static int health = Constants.PLAYER_HEALTH;
 	Vector2 	position = new Vector2();
 	float   	acceleration;
 	Vector2 	velocity = new Vector2();
@@ -72,8 +73,9 @@ public class Car {
 	}
 	
 	public void update(float delta){
-		
-		
+		if(health <= 0){
+			System.out.println("YOU DIED");
+		}
 		float tempRotation = (float) Math.toRadians(rotation + Constants.DEGREE_OFFSET);
 //		velocity.y += (float) (Math.sin(tempRotation)*acceleration*delta);
 //		velocity.x += (float) (Math.cos(tempRotation)*acceleration*delta);
