@@ -22,6 +22,14 @@ public class World {
 		return targets;
 	}
 	
+	/**
+	 * hey why not
+	 */
+	public void addZombie() {
+		Zombie z = new Zombie(new Vector2((float)Math.random()*100, (float) (Math.random()*100)));
+		zombies.add(z);
+	}
+	
 	public ArrayList<Zombie> getZombies() {
 		return zombies;
 	}

@@ -89,9 +89,10 @@ public class Car {
 		int mult = 1;
 		if (reverse){
 			mult = -1;
-		}		
+		}
 		player.setAngularVelocity(mult*Constants.ROTATE_SPEED);
 		rotationSpeed = mult*Constants.ROTATE_SPEED;
+		
 	}
 	
 	public void rotating(float val){

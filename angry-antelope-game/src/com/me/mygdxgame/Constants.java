@@ -35,8 +35,8 @@ public class Constants {
 	public static final int MAX_VELOCITY = 20;
 	
 	public static final float CAR_BACK_ACCELERATION_SCALE = .25f;
-	public static final float CAR_ACCELERATION = 8;
-	public static final float CAR_MAX_ACCELERATION = 320;
+	public static final float CAR_ACCELERATION = 200;
+	public static final float CAR_MAX_ACCELERATION = 800;
 	public static final float ZOMBIE_BACK_ACCELERATION_SCALE = .25f;
 	public static final float ZOMBIE_ACCELERATION = 4;
 	public static final float ZOMBIE_MAX_ACCELERATION = 160;
