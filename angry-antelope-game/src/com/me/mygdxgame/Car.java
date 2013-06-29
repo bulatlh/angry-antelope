@@ -52,38 +52,23 @@ public class Car {
 		carSprite.setSize(bounds.width, bounds.height);
 	}
 	
-	public Body createPlayer(com.badlogic.gdx.physics.box2d.World box2dworld) {
-		BodyDef def = new BodyDef();
-		def.type = BodyType.DynamicBody;
-		player = box2dworld.createBody(def);
- 
-		player.setTransform(bounds.width/2, bounds.height/2, 0);
-		
-		PolygonShape poly = new PolygonShape();		
-		poly.setAsBox(bounds.width/2, bounds.height/2, new Vector2(getCenterPosition().x + Constants.CAR_BOX_SHIFT_X, getCenterPosition().y + Constants.CAR_BOX_SHIFT_Y), (float) 0);
-		
-		
-		playerPhysicsFixture = player.createFixture(poly, 10);
-		poly.dispose();				
-  
-		
-		return player;
-	}
-	
-	public void drawCar(SpriteBatch spriteBatch) {		
+	public void draw(SpriteBatch spriteBatch) {		
 		carSprite.setPosition(position.x, position.y);
 		carSprite.setOrigin(bounds.width/2, bounds.height/2);
-		carSprite.setRotation((float) Math.toDegrees(player.getAngle()));
+		carSprite.setRotation(rotation);
 		carSprite.draw(spriteBatch);
 	}
-	
+
+	public Vector2 getCenterPosition() {
+		return new Vector2(position.x+Constants.CAR_WIDTH/2,position.y+Constants.CAR_HEIGHT/2);
+	}
+
 	public void rotateCW(com.me.mygdxgame.WorldRenderer renderer, boolean reverse){
 		int mult = -1;
 		if (reverse){
 			mult = 1;
-		}	
-		player.setAngularVelocity(mult*Constants.ROTATE_SPEED);
-		rotationSpeed = mult*Constants.ROTATE_SPEED;
+		}
+		this.rotating(mult*Constants.ROTATE_SPEED,renderer);
 	}
 	
 	public void rotateCCW(com.me.mygdxgame.WorldRenderer renderer, boolean reverse){
@@ -91,26 +76,12 @@ public class Car {
 		if (reverse){
 			mult = -1;
 		}		
-		player.setAngularVelocity(mult*Constants.ROTATE_SPEED);
-		rotationSpeed = mult*Constants.ROTATE_SPEED;
+		this.rotating(mult*Constants.ROTATE_SPEED,renderer);
 	}
 	
-	public void rotating(float val){
+	public void rotating(float val,WorldRenderer renderer){
 		rotation += val;
-	}
-	
-	public void clearAngularVelocity(){
-		player.setAngularVelocity(0);
-		rotationSpeed = 0;
-		
-	}
-	
-	public Sprite getSprite(){
-		return carSprite;
-	}
-	
-	public float getRotationSpeed(){
-		return rotationSpeed;
+		renderer.rotating(val);
 	}
 	
 	public float getRotation(){
@@ -138,10 +109,19 @@ public class Car {
 	}
 	
 	public void update(float delta){
-	}
-
-	public Vector2 getCenterPosition() {
-		return new Vector2(position.x+Constants.CAR_WIDTH/2,position.y+Constants.CAR_HEIGHT/2);
+		
+		
+		float tempRotation = (float) Math.toRadians(rotation + Constants.DEGREE_OFFSET);
+//		velocity.y += (float) (Math.sin(tempRotation)*acceleration*delta);
+//		velocity.x += (float) (Math.cos(tempRotation)*acceleration*delta);
+		
+//		if(Constants.MAX_VELOCITY < Math.sqrt(velocity.x * velocity.x + velocity.y * velocity.y)){
+//			velocity.x = (float) (Constants.MAX_VELOCITY * Math.cos(tempRotation));
+//			velocity.y = (float) (Constants.MAX_VELOCITY * Math.sin(tempRotation));
+//		}
+//		position.add(velocity.cpy().mul(delta));
+		position.add(new Vector2((float) Math.cos(tempRotation)*acceleration*delta,
+				(float) (Math.sin(tempRotation)*acceleration*delta)));
 	}
 
 	public void acceleration(int i) {
@@ -155,23 +135,12 @@ public class Car {
 		if(Math.abs(acceleration) > tempMax){
 			acceleration = i*tempMax;
 		}
-		
-		float tempRotation = (float) Math.toRadians(rotation + Constants.DEGREE_OFFSET);
-		
-		player.setLinearVelocity((float) Math.cos(tempRotation)*acceleration, (float) Math.sin(tempRotation)*acceleration);		
 	}
-	
-	public void move(float val){
-		position.add(player.getLinearVelocity().x*val, player.getLinearVelocity().y*val);
-	}
-	
 	
 	public void applyFriction() {
 		acceleration *= Constants.ACCELERATION_LOSS;
 		if (Math.abs(acceleration) <= Constants.ACCELERATION_MIN){
 			acceleration = 0;
 		}
-		float tempRotation = (float) Math.toRadians(rotation + Constants.DEGREE_OFFSET);		
-		player.setLinearVelocity((float) Math.cos(tempRotation)*acceleration, (float) Math.sin(tempRotation)*acceleration);		
 	}
 }

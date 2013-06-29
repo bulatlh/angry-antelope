@@ -29,9 +29,7 @@ public class WorldRenderer {
 	Box2DDebugRenderer box2drenderer;
 	
 	com.badlogic.gdx.physics.box2d.World box2dworld;
-	
-	Body player;
-	
+		
 	/** For area location **/
 	private long startTime;
 	private long currentTime;
@@ -64,9 +62,6 @@ public class WorldRenderer {
 
 		box2dworld = new com.badlogic.gdx.physics.box2d.World(new Vector2(0, 0), true);		
 		Car car = world.getCar();
-		player = car.createPlayer(box2dworld);
-		player.setTransform(10.0f, 4.0f, 0);
-		player.setFixedRotation(true);	
 		
 		for(Zombie z:world.getZombies()){
 			Body zombieBody = z.createZombie(box2dworld);
@@ -86,24 +81,22 @@ public class WorldRenderer {
 		this.cam.update();
 	    spriteBatch.setProjectionMatrix(this.cam.combined);
 		spriteBatch.begin();
-		car.drawCar(spriteBatch);
+		car.update(Gdx.graphics.getDeltaTime());
 		drawTargets();
 		drawZombies();
 		drawInterface();
+		car.draw(spriteBatch);
+
 		spriteBatch.end();
 
 		Matrix4 debugMatrix=new Matrix4(cam.combined);
 		 
 		debugMatrix.scale(1, 1, 1f);
 		
-		box2dworld.step(Gdx.graphics.getDeltaTime(), 4, 4);
+		box2dworld.step(Gdx.graphics.getDeltaTime(), 4, 4);		
+		//box2drenderer.render(box2dworld, debugMatrix);
 		
-		car.move(Gdx.graphics.getDeltaTime());
-		car.rotating(car.getRotationSpeed());
-		rotating(car.getRotationSpeed());
-		
-		box2drenderer.render(box2dworld, debugMatrix);
-		
+		/*
 		// check if in area
 		if (carInArea(car)) {
 			currentTime = System.currentTimeMillis();
@@ -134,7 +127,7 @@ public class WorldRenderer {
 			//System.out.println(car.position);
 			startTime = System.currentTimeMillis();
 		}
-		
+		*/
 	}
 	
 	private boolean carInArea(Car car) {
@@ -151,9 +144,10 @@ public class WorldRenderer {
 	}
 	
 	private void drawTargets() {
+		/*
 		TargetManager manager = world.getTargets();
 		manager.drawTargets(spriteBatch);
-		
+		*/
 	}
 
 	private void drawZombies() {

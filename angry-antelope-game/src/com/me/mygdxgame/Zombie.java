@@ -52,7 +52,6 @@ public class Zombie {
 		
 		CircleShape poly = new CircleShape();		
 		poly.setRadius(bounds.height/2);
-		//poly.setAsBox(bounds.width/2, bounds.height/2, new Vector2(getCenterPosition().x + Constants.ZOMBIE_BOX_SHIFT_X, getCenterPosition().y + Constants.ZOMBIE_BOX_SHIFT_Y), (float) 0);
 		poly.setPosition(new Vector2(getCenterPosition().x, getCenterPosition().y));
 		
 		
@@ -127,7 +126,6 @@ public class Zombie {
 					state = State.ATTACK;
 					acceleration = -100;
 					//Call Attack here
-					Car.health --;
 				}
 			}
 		}
@@ -150,7 +148,7 @@ public class Zombie {
 	}
 	
 	public Vector2 getCenterPosition() {
-		return new Vector2(position.x+Constants.CAR_WIDTH/2,position.y+Constants.CAR_HEIGHT/2);
+		return new Vector2(position.x+Constants.ZOMBIE_WIDTH/2,position.y+Constants.CAR_HEIGHT/2);
 	}	
 	
 	public void acceleration() {
