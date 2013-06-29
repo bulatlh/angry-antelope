@@ -1,10 +1,7 @@
 package com.me.mygdxgame.controller;
 
-import com.me.mygdxgame.GameScreen;
-import com.me.mygdxgame.screens.TitleScreen;
-
 import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Gdx;
+import com.me.mygdxgame.screens.TitleScreen;
 
 public class TitleCreater extends Game {
 

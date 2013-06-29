@@ -123,11 +123,11 @@ public class TitleScreen implements Screen, InputProcessor {
 			if (buttons.get(i).isClicked(screenX, screenY)){
 				switch (i){
 					case 0:  
-						main_menue.stop();
+//						main_menue.stop();
 						Constants.theGreatCreater.setScreen(new GameScreen());
 						break; 
 					case 1:
-						main_menue.stop();
+//						main_menue.stop();
 						Constants.theGreatCreater.setScreen(new RullezScreen());
 						break;
 					case 2: 
