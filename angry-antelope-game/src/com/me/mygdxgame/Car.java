@@ -1,7 +1,5 @@
 package com.me.mygdxgame;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Application.ApplicationType;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
@@ -74,7 +72,7 @@ public class Car {
 	
 	public void update(float delta){
 		if(health <= 0){
-			System.out.println("YOU DIED");
+//			System.out.println("YOU DIED");
 		}
 		float tempRotation = (float) Math.toRadians(rotation + Constants.DEGREE_OFFSET);
 //		velocity.y += (float) (Math.sin(tempRotation)*acceleration*delta);
