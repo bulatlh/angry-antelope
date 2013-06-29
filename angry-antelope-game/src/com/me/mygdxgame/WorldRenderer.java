@@ -66,7 +66,14 @@ public class WorldRenderer {
 		Car car = world.getCar();
 		player = car.createPlayer(box2dworld);
 		player.setTransform(10.0f, 4.0f, 0);
-		player.setFixedRotation(true);		
+		player.setFixedRotation(true);	
+		
+		for(Zombie z:world.getZombies()){
+			Body zombieBody = z.createZombie(box2dworld);
+			zombieBody.setFixedRotation(true);	
+			world.zombieBodies.add(zombieBody);
+		}		
+		
 		
 	}
 
@@ -124,7 +131,7 @@ public class WorldRenderer {
 				startTime = System.currentTimeMillis();
 			}
 		} else {
-			System.out.println(car.position);
+			//System.out.println(car.position);
 			startTime = System.currentTimeMillis();
 		}
 		

@@ -6,6 +6,12 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.CircleShape;
+import com.badlogic.gdx.physics.box2d.Fixture;
+import com.badlogic.gdx.physics.box2d.PolygonShape;
+import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 
 public class Zombie {
 	private enum State{
@@ -19,6 +25,10 @@ public class Zombie {
 	Rectangle 	bounds = new Rectangle();
 	Sprite sprite;
 	static Texture zombieTexture = new Texture(Gdx.files.internal("images/ambulance/zombie.png"));
+
+	Body zombieBody;
+	Fixture zombiePhysicsFixture;
+
 	
 	
 	public Zombie(Vector2 position) {
@@ -33,25 +43,44 @@ public class Zombie {
 		sprite = temp;
 	}
 	
+	public Body createZombie(com.badlogic.gdx.physics.box2d.World box2dworld) {
+		BodyDef def = new BodyDef();
+		def.type = BodyType.DynamicBody;
+		zombieBody = box2dworld.createBody(def);
+ 
+		zombieBody.setTransform(bounds.width/2, bounds.height/2, 0);
+		
+		CircleShape poly = new CircleShape();		
+		poly.setRadius(bounds.height/2);
+		//poly.setAsBox(bounds.width/2, bounds.height/2, new Vector2(getCenterPosition().x + Constants.ZOMBIE_BOX_SHIFT_X, getCenterPosition().y + Constants.ZOMBIE_BOX_SHIFT_Y), (float) 0);
+		poly.setPosition(new Vector2(getCenterPosition().x, getCenterPosition().y));
+		
+		
+		zombiePhysicsFixture = zombieBody.createFixture(poly, 10);
+		poly.dispose();				
+  
+		
+		return zombieBody;
+	}	
+	
 	public void rotateCW(com.me.mygdxgame.WorldRenderer renderer, boolean reverse){
 		int mult = -1;
 		if (reverse){
 			mult = 1;
 		}
-		this.rotating(mult*Constants.ROTATE_SPEED,renderer);
+		zombieBody.setAngularVelocity(mult*Constants.ROTATE_SPEED);
 	}
 	
 	public void rotateCCW(com.me.mygdxgame.WorldRenderer renderer, boolean reverse){
 		int mult = 1;
 		if (reverse){
 			mult = -1;
-		}		
-		this.rotating(mult*Constants.ROTATE_SPEED,renderer);
+		}	
+		zombieBody.setAngularVelocity(mult*Constants.ROTATE_SPEED);		
 	}
 	
-	public void rotating(float val,WorldRenderer renderer){
+	public void rotating(float val){
 		rotation += val;
-		renderer.rotating(val);
 	}
 	
 	public float getRotation(){
@@ -71,17 +100,6 @@ public class Zombie {
 	}
 	
 	public void update(float delta){
-		float tempRotation = (float) Math.toRadians(rotation + Constants.DEGREE_OFFSET);
-//			velocity.y += (float) (Math.sin(tempRotation)*acceleration*delta);
-//			velocity.x += (float) (Math.cos(tempRotation)*acceleration*delta);
-		
-//			if(Constants.MAX_VELOCITY < Math.sqrt(velocity.x * velocity.x + velocity.y * velocity.y)){
-//				velocity.x = (float) (Constants.MAX_VELOCITY * Math.cos(tempRotation));
-//				velocity.y = (float) (Constants.MAX_VELOCITY * Math.sin(tempRotation));
-//			}
-//			position.add(velocity.cpy().mul(delta));
-		position.add(new Vector2((float) Math.cos(tempRotation)*acceleration*delta,
-				(float) (Math.sin(tempRotation)*acceleration*delta)));
 	}
 
 	public void follow(float x, float y) {
@@ -131,6 +149,10 @@ public class Zombie {
 		}
 	}
 	
+	public Vector2 getCenterPosition() {
+		return new Vector2(position.x+Constants.CAR_WIDTH/2,position.y+Constants.CAR_HEIGHT/2);
+	}	
+	
 	public void acceleration() {
 		float tempAccel = (float) (Constants.ZOMBIE_ACCELERATION+Math.random()*2);
 		float tempMax = Constants.ZOMBIE_MAX_ACCELERATION;
@@ -139,10 +161,15 @@ public class Zombie {
 		if(Math.abs(acceleration) > tempMax){
 			acceleration = tempMax;
 		}
+		
+		float tempRotation = (float) Math.toRadians(rotation + Constants.DEGREE_OFFSET);
+		
+		zombieBody.setLinearVelocity((float) Math.cos(tempRotation)*acceleration, (float) Math.sin(tempRotation)*acceleration);	
+		
 	}
 	
 	public void draw(SpriteBatch spriteBatch) {
-		sprite.setPosition(getPosition().x, getPosition().y);
+		sprite.setPosition(zombieBody.getPosition().x + zombieBody.getLocalCenter().x - (bounds.width/2), zombieBody.getPosition().y + zombieBody.getLocalCenter().y  - (bounds.height/2));
 		sprite.setOrigin(bounds.width/2,bounds.height/2);
 		sprite.setRotation(rotation);
 		sprite.draw(spriteBatch);
