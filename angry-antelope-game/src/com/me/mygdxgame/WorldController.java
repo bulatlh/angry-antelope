@@ -72,6 +72,7 @@ public class WorldController {
 	public void update(float delta) {
 		processInput();
 		car.update(delta);
+		world.targets.update(car);
 	}
 
 	/** Change Bob's state and parameters based on input controls **/

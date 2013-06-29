@@ -25,7 +25,9 @@ public class WorldRenderer {
 
 	/** Textures **/
 	private Texture carTexture;
+	
 	private Sprite carSprite;
+	
 	private SpriteBatch spriteBatch;
 	private boolean debug = false;
 	private int width;
@@ -56,17 +58,20 @@ public class WorldRenderer {
 		Car car = world.getCar();
 		Rectangle rect = car.getBounds();
 		carSprite.setSize(rect.width, rect.height);
+		
+		
 	}
 
 	public void render() {
 		Car car = world.getCar();
-		
 		//this.cam.position.set(car.getCenterPosition().x, car.getCenterPosition().y, 0);
 				
 		this.cam.update();
 	    spriteBatch.setProjectionMatrix(this.cam.combined);
 		spriteBatch.begin();
 		drawCar();
+		drawTargets();
+		
 		drawInterface();
 		spriteBatch.end();
 //		if (true){
@@ -109,6 +114,12 @@ public class WorldRenderer {
 		carSprite.draw(spriteBatch);
 	}
 
+	private void drawTargets() {
+		TargetManager arrows = world.getTargets();
+		arrows.drawTargets(spriteBatch);	
+	}
+	
+	
 	private void drawDebug() {
 		// render blocks
 		debugRenderer.setProjectionMatrix(cam.combined);
