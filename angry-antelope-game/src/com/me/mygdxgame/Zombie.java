@@ -129,7 +129,6 @@ public class Zombie {
 		else{
 			acceleration();
 		}
-		
 	}
 	
 	public void acceleration() {

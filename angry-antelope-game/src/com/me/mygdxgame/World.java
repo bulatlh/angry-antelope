@@ -10,6 +10,7 @@ public class World {
 	Car car;
 	TargetManager targets;
 	ArrayList<Zombie> zombies;
+	public Map map;
 
 
 	public Car getCar() {

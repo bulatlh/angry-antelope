@@ -69,7 +69,6 @@ public class WorldRenderer {
 		Rectangle rect = car.getBounds();
 		carSprite.setSize(rect.width, rect.height);
 		
-		
 	}
 
 	public void render() {
@@ -79,10 +78,12 @@ public class WorldRenderer {
 		this.cam.update();
 	    spriteBatch.setProjectionMatrix(this.cam.combined);
 		spriteBatch.begin();
+		drawMap();
+		
+		drawZombies();
 		drawCar();
 		drawTargets();
-		drawZombies();
-
+		
 		drawInterface();
 		spriteBatch.end();
 //		if (true){
@@ -122,6 +123,11 @@ public class WorldRenderer {
 		}
 	}
 	
+	private void drawMap() {
+		// TODO Auto-generated method stub
+		
+	}
+
 	private boolean carInArea(Car car) {
 		float x = car.position.x;
 		float y = car.position.y;

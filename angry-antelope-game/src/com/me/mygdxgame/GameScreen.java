@@ -16,7 +16,6 @@ public class GameScreen implements Screen, InputProcessor {
 	private WorldController controller;
 	private ArrayList<ButtonObject> menuButtons;
 	
-	
 	@Override
 	public void render(float delta){		
 		Gdx.gl.glClearColor(0.1f, 0.1f, 0.1f, 1);
