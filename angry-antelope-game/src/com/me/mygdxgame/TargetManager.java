@@ -1,15 +1,15 @@
 package com.me.mygdxgame;
 
 import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.List;
 import java.util.Stack;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class TargetManager {
 
-	private ArrayList<Arrow> activeTargets;
-	private Stack<Arrow> inactiveTargets;
+	ArrayList<Arrow> activeTargets;
+	Stack<Arrow> inactiveTargets;
 	
 	
 	
@@ -18,6 +18,9 @@ public class TargetManager {
 		inactiveTargets = new Stack<Arrow>();
 	}
 	
+	public List<Arrow> getTargets(){
+		return activeTargets;
+	}
 	public void update(Car car){
 		float car_x = car.getCenterPosition().x; 
 		float car_y = car.getCenterPosition().y;
