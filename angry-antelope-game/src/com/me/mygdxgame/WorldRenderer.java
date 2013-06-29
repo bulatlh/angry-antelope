@@ -20,9 +20,7 @@ public class WorldRenderer {
 	Box2DDebugRenderer box2drenderer;
 	
 	com.badlogic.gdx.physics.box2d.World box2dworld;
-	
-	Body player;
-	
+		
 	/** For area location **/
 	private long startTime;
 	private long currentTime;
@@ -55,9 +53,13 @@ public class WorldRenderer {
 
 		box2dworld = new com.badlogic.gdx.physics.box2d.World(new Vector2(0, 0), true);		
 		Car car = world.getCar();
-		player = car.createPlayer(box2dworld);
-		player.setTransform(10.0f, 4.0f, 0);
-		player.setFixedRotation(true);		
+		
+		for(Zombie z:world.getZombies()){
+			Body zombieBody = z.createZombie(box2dworld);
+			zombieBody.setFixedRotation(true);	
+			world.zombieBodies.add(zombieBody);
+		}		
+		
 		
 	}
 
@@ -70,7 +72,7 @@ public class WorldRenderer {
 		this.cam.update();
 	    spriteBatch.setProjectionMatrix(this.cam.combined);
 		spriteBatch.begin();
-		car.drawCar(spriteBatch);
+		car.draw(spriteBatch);
 		drawTargets();
 		drawZombies();
 		drawInterface();
@@ -82,12 +84,53 @@ public class WorldRenderer {
 		
 		box2dworld.step(Gdx.graphics.getDeltaTime(), 4, 4);
 		
-		car.move(Gdx.graphics.getDeltaTime());
-		car.rotating(car.getRotationSpeed());
-		rotating(car.getRotationSpeed());
+		//box2drenderer.render(box2dworld, debugMatrix);
 		
-		box2drenderer.render(box2dworld, debugMatrix);
+
+		// check if in area
+		if (carInArea(car)) {
+			currentTime = System.currentTimeMillis();
+			
+			// we were previously in the area
+			if (inArea) {
+				// check if done
+				int differenceTime = (int) ((currentTime - startTime) / 1000);
+				
+				// calculate the time remaining in area
+				int remainingTime = DURATION - differenceTime;
+				
+				if (remainingTime <= 0) {
+					System.out.println("DONE");
+					inArea = false;
+				} else {
+					System.out.println("TIME LEFT " + remainingTime + " SECONDS");
+				}
+				
+			} else {
+				System.out.println("WELCOME TO LOADING ZONE");
+				// set boolean to true
+				inArea = true;
+				// make start = time
+				startTime = System.currentTimeMillis();
+			}
+		} else {
+			//System.out.println(car.position);
+			startTime = System.currentTimeMillis();
+		}
 		
+	}
+	
+	private boolean carInArea(Car car) {
+		float x = car.position.x;
+		float y = car.position.y;
+		
+		if (x < 500 && x > 300) {
+			if ( y < 500 && y > 300) {
+				return true;
+			}
+		}
+		
+		return false;
 	}
 	
 	private void drawTargets() {
