@@ -6,12 +6,17 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL10;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.me.mygdxgame.renderers.WorldRenderer;
 
 public class GameScreen implements Screen, InputProcessor {
 
 	private World world;
 	private WorldRenderer renderer;
 	private WorldController controller;
+	private ButtonObject menu;
+	
 	
 	@Override
 	public void render(float delta){		
@@ -33,6 +38,7 @@ public class GameScreen implements Screen, InputProcessor {
 		world = new World();
 		renderer = new WorldRenderer(world, false);
 		controller = new WorldController(world, renderer);
+		menu = new ButtonObject(new Texture(Gdx.files.internal("images/pauseGame.png")),1000,700);
 		Gdx.input.setInputProcessor(this);
 	}
 
@@ -102,28 +108,15 @@ public class GameScreen implements Screen, InputProcessor {
 
 	@Override
 	public boolean touchDown(int x, int y, int pointer, int button) {
-		if (Gdx.app.getType().equals(ApplicationType.Android)){
-			if(Gdx.input.getAccelerometerX() >4){
-				controller.leftPressed();
-			}
-			if(Gdx.input.getAccelerometerX() <-4){
-				controller.rightPressed();
-			}
+		if(menu.clickedButton(x, y)){
+			menu.pressed();
 		}
 		return true;
 	}
 
 	@Override
 	public boolean touchUp(int x, int y, int pointer, int button) {
-		if (!Gdx.app.getType().equals(ApplicationType.Android))
-			return false;
-		if(Gdx.input.getAccelerometerY() >4){
-			controller.leftReleased();
-		}
-//		if (x > width / 2 && y > height / 2) {
-		if(Gdx.input.getAccelerometerY() <-4){
-			controller.rightReleased();
-		}
+		
 		return true;
 	}
 

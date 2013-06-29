@@ -7,6 +7,7 @@ import java.util.Map;
 import com.badlogic.gdx.Gdx;
 import com.me.mygdxgame.Car;
 import com.me.mygdxgame.Car.State;
+import com.me.mygdxgame.renderers.WorldRenderer;
 import com.me.mygdxgame.World;
 
 public class WorldController {

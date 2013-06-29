@@ -28,5 +28,8 @@ public class Constants {
 	public static final float ROTATION_SCALAR = .1f;
 	public static final int DEGREE_OFFSET = 90;
 	
+	public static final int PICKUP_RADIUS = 100;
+	public static final int ZOMBIE_TRACKING_RADIUS = 200;
+	public static final int ZOMBIE_TRACKING_SIREN_RADIUS = 400;
 	
 }
