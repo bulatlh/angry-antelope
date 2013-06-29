@@ -15,13 +15,18 @@ public class Arrow {
 	Vector2 targetPos = new Vector2();
 	Vector2 arrowPosition = new Vector2();
 	Rectangle bounds = new Rectangle(); 
-	Sprite mySprite; 
+	Sprite greenSprite; 
+	Sprite redSprite;
+	Sprite currentSprite; 
+	boolean gone = false;
+	
 	boolean isClose = false;
 	
 	private long startTime;  
 	
 	private static Texture ArrowTexture = new Texture(Gdx.files.internal("images/ambulance/arrow.png"));
-
+	private static Texture RedArrow = new Texture(Gdx.files.internal("images/ambulance/arrow_red.png"));
+	
 	float rotation;  
 
 
@@ -30,8 +35,12 @@ public class Arrow {
 	public Arrow(){
 		bounds.height = Constants.ARROW_HEIGHT;
 		bounds.width = Constants.ARROW_WIDTH;
-		mySprite = new Sprite(Arrow.ArrowTexture);
-		mySprite.setSize(bounds.width, bounds.height);
+		greenSprite = new Sprite(Arrow.ArrowTexture);
+		greenSprite.setSize(bounds.width, bounds.height);
+		redSprite = new Sprite(Arrow.RedArrow);
+		greenSprite.setSize(bounds.width, bounds.height);
+		
+		currentSprite = greenSprite;
 		
 		targetPos = new Vector2(700, 500);
 		arrowPosition = new Vector2(targetPos);
@@ -42,6 +51,8 @@ public class Arrow {
 	}
 
 	public boolean update(float car_x, float car_y){
+		if (gone)
+			return !gone;
 		float x_len = targetPos.x - car_x; 
 		float y_len = targetPos.y - car_y;
 		float c_len = (float)Math.sqrt( Math.pow(x_len, 2) + Math.pow(y_len, 2));
@@ -54,16 +65,18 @@ public class Arrow {
 			y_coor = car_y +  
 					Constants.CAR_HEIGHT * y_len / c_len;
 			isClose = false;
+			if (currentSprite != greenSprite)
+				currentSprite = greenSprite;
 		}else {
 			if (isClose){
 				// if i was close
 				long currentTime = System.currentTimeMillis();
 				int left = Constants.DURATION - (int)((currentTime - startTime) / 1000);
-				if ( left < 1 ){
-					// change color
-					
+				if ( left <= 1 ){
+					currentSprite = redSprite;
 				}
-				if ( left <= 0 ){
+				if ( left < 0 ){
+					gone = true;
 					pickedUp = true;
 //					isClose = false;
 					System.out.println("Aaaand... Gone!");
@@ -86,11 +99,11 @@ public class Arrow {
 	}
 
 	public void draw(SpriteBatch spriteBatch){
-		if ( !isClose ){
-			mySprite.setPosition(arrowPosition.x, arrowPosition.y);
-			mySprite.setOrigin(mySprite.getWidth()/2, mySprite.getHeight()/2);
-			mySprite.setRotation(0);
-			mySprite.draw(spriteBatch);
+		if ( !gone ){
+			currentSprite.setPosition(arrowPosition.x, arrowPosition.y);
+			currentSprite.setOrigin(currentSprite.getWidth()/2, currentSprite.getHeight()/2);
+			currentSprite.setRotation(0);
+			currentSprite.draw(spriteBatch);
 		}
 	}
 

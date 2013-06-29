@@ -27,6 +27,7 @@ public class MainActivity extends AndroidApplication {
 		gameServices.submitScore(100);
 		
 		new Thread() {
+			@Override
 			public void run() {
 				while(!gameServices.getGameClient().isReady()) {
 					try {

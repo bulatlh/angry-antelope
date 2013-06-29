@@ -31,6 +31,7 @@ public class BoxRectObject extends BaseBoxObject{
 		}
 	}
 	
+	@Override
 	public void Update(float dt){
 		if(IsAlive){
 			super.Update(dt);

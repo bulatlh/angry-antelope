@@ -6,8 +6,9 @@ import java.util.Map;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Application.ApplicationType;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.me.mygdxgame.Car;
-import com.me.mygdxgame.Car.State;
 import com.me.mygdxgame.World;
 
 public class WorldController {
@@ -15,11 +16,15 @@ public class WorldController {
 	enum Keys {
 		LEFT, RIGHT, UP, DOWN
 	}
+	
+	private float sumd = 0;
 
 	private World 	world;
 	private WorldRenderer renderer;
 	private Car 	car;
 
+	private int totalScore = 0;
+	
 	static Map<Keys, Boolean> keys = new HashMap<WorldController.Keys, Boolean>();
 	static {
 		keys.put(Keys.LEFT, false);
@@ -68,20 +73,34 @@ public class WorldController {
 		keys.get(keys.put(Keys.DOWN, false));
 	}
 
+	float lastSpawn = 0;
 	/** The main update method **/
 	public void update(float delta) {
 		processInput();
 		car.update(delta);
-
+		
 		// I got this number of people 
 		int picked_up_people = world.targets.update(car);
-		if (picked_up_people != 0)
-			System.out.println("picked up person! yahoo!" + picked_up_people);
-
+		
+		totalScore += picked_up_people;
+		
 		world.targets.update(car);
-
+		world.scoreBoard.update(totalScore);
+		
 		for(Zombie z : world.zombies){
 			z.update(delta);
+		}
+		
+		sumd += delta;
+		
+		if(sumd>Constants.ZOMBIESPAWN){
+			sumd = 0;
+			lastSpawn = (float) (lastSpawn+.5);
+			Zombie z = new Zombie(new Vector2((float)Math.random()*1280,(float) (Math.random()*800)));
+			world.zombies.add(z);
+			Body zombieBody = z.createZombie(WorldRenderer.box2dworld);
+			zombieBody.setFixedRotation(true);	
+			WorldRenderer.world.zombieBodies.add(zombieBody);
 		}
 	}
 
@@ -130,11 +149,6 @@ public class WorldController {
 		if (keys.get(Keys.RIGHT)) {
 			car.rotateCW(renderer,keys.get(Keys.DOWN));
 		}
-
-		if ((!keys.get(Keys.RIGHT)  && !keys.get(Keys.LEFT))) {
-			car.clearAngularVelocity();
-		}		
-
 		if (keys.get(Keys.UP)) {
 			car.acceleration(1);
 		}
