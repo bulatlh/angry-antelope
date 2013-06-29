@@ -23,6 +23,8 @@ public class Constants {
 	
 	public static final int CAR_HEIGHT = 48*CAR_SCALAR;
 	public static final int CAR_WIDTH = 24*CAR_SCALAR;
+	public static final int ZOMBIE_HEIGHT = 14*CAR_SCALAR;
+	public static final int ZOMBIE_WIDTH = 15*CAR_SCALAR;
 	
 	public static final int ARROW_WIDTH = 10;
 	public static final int ARROW_HEIGHT = 10;
@@ -35,7 +37,12 @@ public class Constants {
 	public static final float CAR_BACK_ACCELERATION_SCALE = .25f;
 	public static final float CAR_ACCELERATION = 8;
 	public static final float CAR_MAX_ACCELERATION = 320;
+	public static final float ZOMBIE_BACK_ACCELERATION_SCALE = .25f;
+	public static final float ZOMBIE_ACCELERATION = 4;
+	public static final float ZOMBIE_MAX_ACCELERATION = 160;
 
+	public static final float ZOMBIE_CAR_THRESHOLD_HEIGHT = HALF_CAR_HEIGHT+ZOMBIE_HEIGHT+1;
+	public static final float ZOMBIE_CAR_THRESHOLD_WIDTH = HALF_CAR_WIDTH+ZOMBIE_WIDTH+1;
 	
 	public static final float ACCELEROMETER_SCALAR = 20;
 	
@@ -48,6 +55,8 @@ public class Constants {
 	public static final int PICKUP_RADIUS = 100;
 	public static final int ZOMBIE_TRACKING_RADIUS = 200;
 	public static final int ZOMBIE_TRACKING_SIREN_RADIUS = 400;
+	
+	public static final int ZOMBIE_ATTACKING_RADIUS = 50;
 
 	public static final float TURN_THRESHOLD = 1.3f;
 
@@ -55,4 +64,7 @@ public class Constants {
 
 	
 	
+	public static final int NUMBER_ZOMBIES = 1000;
+	public static final int PLAYER_HEALTH = 100;
+	public static final float MIN_ZOMBIE_ACCELERATION = 2;
 }

@@ -1,6 +1,7 @@
 package com.me.mygdxgame;
 
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -71,12 +72,20 @@ public class WorldController {
 	/** The main update method **/
 	public void update(float delta) {
 		processInput();
-		car.update(delta);
+
 		world.targets.update(car);
+
+		for(Zombie z : world.zombies){
+			z.update(delta);
+		}
+
 	}
 
 	/** Change Bob's state and parameters based on input controls **/
 	private void processInput() {
+		for(Zombie z:world.getZombies()){
+			z.follow(car.getCenterPosition().x, car.getCenterPosition().y);
+		}
 		if (Gdx.app.getType().equals(ApplicationType.Android)){
 			if(Gdx.input.getAccelerometerY() > Constants.TURN_THRESHOLD){
 				rightPressed(); //+Constants.ROTATION_SCALAR;

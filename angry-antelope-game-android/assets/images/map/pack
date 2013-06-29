@@ -1,0 +1,26 @@
+
+input1.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+level
+  rotate: false
+  xy: 0, 0
+  size: 50, 50
+  orig: 50, 50
+  offset: 0, 0
+  index: 1
+level
+  rotate: false
+  xy: 0, 52
+  size: 50, 50
+  orig: 50, 50
+  offset: 0, 0
+  index: 4
+level
+  rotate: false
+  xy: 0, 104
+  size: 50, 50
+  orig: 50, 50
+  offset: 0, 0
+  index: 7
