@@ -91,46 +91,57 @@ public class WorldRenderer {
 		}
 		
 		// check if in area
-		if (carInArea(car)) {
-			currentTime = System.currentTimeMillis();
-			
-			// we were previously in the area
-			if (inArea) {
-				// check if done
-				int differenceTime = (int) ((currentTime - startTime) / 1000);
-				
-				// calculate the time remaining in area
-				int remainingTime = DURATION - differenceTime;
-				
-				if (remainingTime <= 0) {
-					System.out.println("DONE");
-					inArea = false;
-				} else {
-					System.out.println("TIME LEFT " + remainingTime + " SECONDS");
-				}
-				
-			} else {
-				System.out.println("WELCOME TO LOADING ZONE");
-				// set boolean to true
-				inArea = true;
-				// make start = time
-				startTime = System.currentTimeMillis();
-			}
-		} else {
-			System.out.println(car.position);
-			startTime = System.currentTimeMillis();
-		}
+//		if (carInArea(car)) {
+//			currentTime = System.currentTimeMillis();
+//			
+//			// we were previously in the area
+//			if (inArea) {
+//				// check if done
+//				int differenceTime = (int) ((currentTime - startTime) / 1000);
+//				
+//				// calculate the time remaining in area
+//				int remainingTime = DURATION - differenceTime;
+//				
+//				if (remainingTime <= 0) {
+//					System.out.println("DONE");
+//					inArea = false;
+//				} else {
+//					System.out.println("TIME LEFT " + remainingTime + " SECONDS");
+//				}
+//				
+//			} else {
+//				System.out.println("WELCOME TO LOADING ZONE");
+//				// set boolean to true
+//				inArea = true;
+//				// make start = time
+//				startTime = System.currentTimeMillis();
+//			}
+//		} else {
+//			System.out.println(car.position);
+//			startTime = System.currentTimeMillis();
+//		}
 	}
 	
+	private final float CLOSENESS = 100;
+	
 	private boolean carInArea(Car car) {
-		float x = car.position.x;
-		float y = car.position.y;
+		float car_x = car.position.x;
+		float car_y = car.position.y;
 		
-		if (x < 500 && x > 300) {
-			if ( y < 500 && y > 300) {
-				return true;
+		TargetManager targets = world.targets;
+		float arr_x;
+		float arr_y;
+		for (Arrow arr : targets.activeTargets){
+			arr_x = arr.arrowPosition.x;
+			arr_y = arr.arrowPosition.y;
+			
+			if (car_x < arr_x + CLOSENESS && car_x > arr_x - CLOSENESS ) {
+				if ( car_y < arr_y + CLOSENESS && car_y > arr_y - CLOSENESS ) {
+					return true;
+				}
 			}
 		}
+		
 		
 		return false;
 	}
@@ -171,7 +182,7 @@ public class WorldRenderer {
 	private void drawZombies(){
 		ArrayList<Zombie> zombies = world.getZombies();
 		int i;
-		System.out.println("OMG ZOMBIES");
+//		System.out.println("OMG ZOMBIES");
 		for(i=0; i<zombies.size();i++){
 			Zombie z = zombies.get(i);
 			z.draw(spriteBatch);

@@ -75,8 +75,11 @@ public class WorldController {
 
 		car.update(delta);
 		
-		world.targets.update(car);
-
+		// I got this number of people 
+		int picked_up_people = world.targets.update(car);
+		if (picked_up_people != 0)
+			System.out.println("picked up person! yahoo!" + picked_up_people);
+		
 		for(Zombie z : world.zombies){
 			z.update(delta);
 		}

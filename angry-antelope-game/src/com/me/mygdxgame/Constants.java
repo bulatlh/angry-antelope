@@ -62,7 +62,7 @@ public class Constants {
 
 	public static float X_OFFSET = 0; // set this value when start game is pressed.
 
-	
+	public static final int DURATION = 5; 
 	
 	public static final int NUMBER_ZOMBIES = 1000;
 	public static final int PLAYER_HEALTH = 100;

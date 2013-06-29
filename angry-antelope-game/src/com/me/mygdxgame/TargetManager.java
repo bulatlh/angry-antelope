@@ -8,8 +8,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class TargetManager {
 
-	private ArrayList<Arrow> activeTargets;
-	private Stack<Arrow> inactiveTargets;
+	ArrayList<Arrow> activeTargets;
+	Stack<Arrow> inactiveTargets;
 	
 	
 	
@@ -18,11 +18,14 @@ public class TargetManager {
 		inactiveTargets = new Stack<Arrow>();
 	}
 	
-	public void update(Car car){
+	public int update(Car car){
 		float car_x = car.getCenterPosition().x; 
 		float car_y = car.getCenterPosition().y;
+		int arrow_count = 0;
 		for(Arrow arr : activeTargets){
-			arr.update(car_x, car_y);
+			if (arr.update(car_x, car_y)){
+				++arrow_count;
+			}
 		}
 		
 //		Iterator<Arrow> iter = activeTargets.iterator();
@@ -39,6 +42,7 @@ public class TargetManager {
 //			// add logic here. 
 //			// remove or disable targets when needs to be removed
 //		}
+		return arrow_count;
 	}
 	
 	public void addTarget(int x, int y){

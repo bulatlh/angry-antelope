@@ -6,6 +6,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.Texture;
 
@@ -15,6 +16,7 @@ public class GameScreen implements Screen, InputProcessor {
 	private WorldRenderer renderer;
 	private WorldController controller;
 	private ArrayList<ButtonObject> menuButtons;
+	private static Sound mainMenue; 
 	
 	
 	@Override
@@ -41,6 +43,9 @@ public class GameScreen implements Screen, InputProcessor {
 		ButtonObject b = new ButtonObject(new Texture(Gdx.files.internal("images/pauseGame.png")),500,300);
 		menuButtons.add(b);
 		Gdx.input.setInputProcessor(this);
+//		mainMenue = Gdx.audio.newSound(Gdx.files.internal("sounds/menue.mp3"));
+//		mainMenue.play();
+		
 	}
 
 	@Override
@@ -61,6 +66,9 @@ public class GameScreen implements Screen, InputProcessor {
 	@Override
 	public void dispose() {
 		// TODO Auto-generated method stub
+	
+		if (mainMenue != null)
+			mainMenue.dispose();
 	}
 
 	@Override
