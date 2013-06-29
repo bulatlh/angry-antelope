@@ -72,13 +72,10 @@ public class WorldController {
 	/** The main update method **/
 	public void update(float delta) {
 		processInput();
-
-		world.targets.update(car);
-
+		car.update(delta);
 		for(Zombie z : world.zombies){
 			z.update(delta);
 		}
-
 	}
 
 	/** Change Bob's state and parameters based on input controls **/
