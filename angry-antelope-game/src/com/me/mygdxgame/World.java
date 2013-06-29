@@ -42,7 +42,7 @@ public class World {
 		for (int i=0;i<Constants.NUMBER_ZOMBIES;i++){
 			Zombie z = new Zombie(new Vector2((float)Math.random()*1280,(float) (Math.random()*800)));
 //			Zombie z = new Zombie(new Vector2(100,100));
-			System.out.println((float)Math.random()*1280);
+//			System.out.println((float)Math.random()*1280);
 			zombies.add(z);
 		}
 

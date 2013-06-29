@@ -67,4 +67,7 @@ public class Constants {
 	public static final int NUMBER_ZOMBIES = 1000;
 	public static final int PLAYER_HEALTH = 100;
 	public static final float MIN_ZOMBIE_ACCELERATION = 2;
+	public static final float CAR_BOX_SHIFT_X = -10;
+	public static final float CAR_BOX_SHIFT_Y = -4;
+	
 }

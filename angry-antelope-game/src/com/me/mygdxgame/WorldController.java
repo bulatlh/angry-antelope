@@ -1,7 +1,6 @@
 package com.me.mygdxgame;
 
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -73,6 +72,8 @@ public class WorldController {
 	public void update(float delta) {
 		processInput();
 		car.update(delta);
+		world.targets.update(car);
+
 		for(Zombie z : world.zombies){
 			z.update(delta);
 		}
@@ -123,6 +124,10 @@ public class WorldController {
 		if (keys.get(Keys.RIGHT)) {
 			car.rotateCW(renderer,keys.get(Keys.DOWN));
 		}
+		
+		if ((!keys.get(Keys.RIGHT)  && !keys.get(Keys.LEFT))) {
+			car.clearAngularVelocity();
+		}		
 		
 		if (keys.get(Keys.UP)) {
 			car.acceleration(1);

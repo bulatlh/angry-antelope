@@ -1,45 +1,39 @@
 package com.me.mygdxgame;
 
 
-import java.util.ArrayList;
-
 import com.me.mygdxgame.Car;
 import com.me.mygdxgame.World;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
+import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 
 public class WorldRenderer {
 
 	private World world;
 	private OrthographicCamera cam;
 
-	/** For area location **/
-	private long startTime;
-	private long currentTime;
-	private boolean inArea = false;
-	private final int DURATION = 5; 
-	
 	/** for debug rendering **/
-	ShapeRenderer debugRenderer = new ShapeRenderer();
 
+	
+	Box2DDebugRenderer box2drenderer;
+	
+	com.badlogic.gdx.physics.box2d.World box2dworld;
+	
+	Body player;
+	
 	/** Textures **/
-	private Texture carTexture;
-
-	private Texture zombieTexture;
-
-	private Sprite carSprite;
-	
 	private SpriteBatch spriteBatch;
-	
 	private boolean debug = false;
 	private int width;
 	private int height;
@@ -59,148 +53,66 @@ public class WorldRenderer {
 		this.cam.update();
 		this.debug = debug;
 		spriteBatch = new SpriteBatch();
-		loadTextures();
-	}
+		
+		box2drenderer = new Box2DDebugRenderer();
 
-	private void loadTextures() {
-		carTexture = new  Texture(Gdx.files.internal("images/ambulance/ambulance-1.png"));
-		carSprite = new Sprite(carTexture);
+		box2dworld = new com.badlogic.gdx.physics.box2d.World(new Vector2(0, 0), true);		
 		Car car = world.getCar();
-		Rectangle rect = car.getBounds();
-		carSprite.setSize(rect.width, rect.height);
+		player = car.createPlayer(box2dworld);
+		player.setTransform(10.0f, 4.0f, 0);
+		player.setFixedRotation(true);		
 		
 	}
 
+
 	public void render() {
 		Car car = world.getCar();
+		
 		//this.cam.position.set(car.getCenterPosition().x, car.getCenterPosition().y, 0);
 				
 		this.cam.update();
 	    spriteBatch.setProjectionMatrix(this.cam.combined);
 		spriteBatch.begin();
-		drawMap();
-		
-		drawZombies();
-		drawCar();
+		car.drawCar(spriteBatch);
 		drawTargets();
-		
+		drawZombies();
 		drawInterface();
 		spriteBatch.end();
-//		if (true){
-		if(debug){
-			drawDebug();
-		}
+
+		Matrix4 debugMatrix=new Matrix4(cam.combined);
+		 
+		debugMatrix.scale(1, 1, 1f);
 		
-		// check if in area
-		if (carInArea(car)) {
-			currentTime = System.currentTimeMillis();
-			
-			// we were previously in the area
-			if (inArea) {
-				// check if done
-				int differenceTime = (int) ((currentTime - startTime) / 1000);
-				
-				// calculate the time remaining in area
-				int remainingTime = DURATION - differenceTime;
-				
-				if (remainingTime <= 0) {
-					System.out.println("DONE");
-					inArea = false;
-				} else {
-					System.out.println("TIME LEFT " + remainingTime + " SECONDS");
-				}
-				
-			} else {
-				System.out.println("WELCOME TO LOADING ZONE");
-				// set boolean to true
-				inArea = true;
-				// make start = time
-				startTime = System.currentTimeMillis();
-			}
-		} else {
-			System.out.println(car.position);
-			startTime = System.currentTimeMillis();
-		}
+		box2dworld.step(Gdx.graphics.getDeltaTime(), 4, 4);
+		
+		car.move(Gdx.graphics.getDeltaTime());
+		car.rotating(car.getRotationSpeed());
+		rotating(car.getRotationSpeed());
+		
+		box2drenderer.render(box2dworld, debugMatrix);		
 	}
 	
-	private void drawMap() {
-		// TODO Auto-generated method stub
+	private void drawTargets() {
+		TargetManager manager = world.getTargets();
+		manager.drawTargets(spriteBatch);
 		
 	}
 
-	private boolean carInArea(Car car) {
-		float x = car.position.x;
-		float y = car.position.y;
-		
-		if (x < 500 && x > 300) {
-			if ( y < 500 && y > 300) {
-				return true;
-			}
+	private void drawZombies() {
+		// TODO Auto-generated method stub
+		for(Zombie z:world.getZombies()){
+			z.draw(spriteBatch);
 		}
 		
-		return false;
 	}
 
 	private void drawInterface() {
 		
-	}
-
-	public void rotateCW(){
-		int mult = -1;
-		if (world.getCar().getAcceleration() < 0){
-			mult = 1;
-		}		
-		this.rotating(mult*Constants.ROTATE_SPEED);
-	}
-	
-	public void rotateCCW(){
-		int mult = 1;
-		if (world.getCar().getAcceleration() < 0){
-			mult = -1;
-		}		
-		this.rotating(mult*Constants.ROTATE_SPEED);
 	}
 	
 	public void rotating(float val){
 		//this.cam.rotate(-1*val);
 		this.cam.update();
 	}
-	
-	private void drawCar() {
-		Car car = world.getCar();
-		
-		carSprite.setPosition(car.getPosition().x, car.getPosition().y);
-		carSprite.setOrigin(carSprite.getWidth()/2,carSprite.getHeight()/2);
-		carSprite.setRotation(car.getRotation());
-		carSprite.draw(spriteBatch);
-	}
-	private void drawZombies(){
-		ArrayList<Zombie> zombies = world.getZombies();
-		int i;
-		System.out.println("OMG ZOMBIES");
-		for(i=0; i<zombies.size();i++){
-			Zombie z = zombies.get(i);
-			z.draw(spriteBatch);
-		}
-	}
 
-	private void drawTargets() {
-		TargetManager arrows = world.getTargets();
-		arrows.drawTargets(spriteBatch);	
-	}
-	
-	
-	private void drawDebug() {
-		// render blocks
-		debugRenderer.setProjectionMatrix(cam.combined);
-		debugRenderer.begin(ShapeType.Rectangle);
-		// render Bob
-		Car car = world.getCar();
-		Rectangle rect = car.getBounds();
-		float x1 = car.getPosition().x + rect.x;
-		float y1 = car.getPosition().y + rect.y;
-		debugRenderer.setColor(new Color(0, 1, 0, 1));
-		debugRenderer.rect(x1, y1, rect.width, rect.height);
-		debugRenderer.end();
-	}
 }
