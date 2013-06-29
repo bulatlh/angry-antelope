@@ -73,11 +73,6 @@ public class Car {
 	public void update(float delta){
 		
 		
-		if (Gdx.app.getType().equals(ApplicationType.Android)){
-			rotation -= Gdx.input.getAccelerometerY()+Constants.ROTATION_SCALAR;
-			acceleration = (float) (Gdx.input.getAccelerometerX()*-1*Constants.ACCELEROMETER_SCALAR);
-		}
-		
 		float tempRotation = (float) Math.toRadians(rotation + Constants.DEGREE_OFFSET);
 //		velocity.y += (float) (Math.sin(tempRotation)*acceleration*delta);
 //		velocity.x += (float) (Math.cos(tempRotation)*acceleration*delta);

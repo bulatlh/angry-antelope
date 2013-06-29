@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Application.ApplicationType;
 import com.me.mygdxgame.Car;
 import com.me.mygdxgame.Car.State;
 import com.me.mygdxgame.renderers.WorldRenderer;
@@ -83,6 +84,22 @@ public class WorldController {
 		if (keys.get(Keys.RIGHT)) {
 			car.rotateCW();
 			renderer.rotateCW();
+		}
+		
+		if (Gdx.app.getType().equals(ApplicationType.Android)){
+			if(Gdx.input.getAccelerometerY() > Constants.TURN_THRESHOLD){
+				car.rotateCW(); //+Constants.ROTATION_SCALAR;
+			}
+			else if(Gdx.input.getAccelerometerY() < -1* Constants.TURN_THRESHOLD){
+				car.rotateCCW();
+			}
+			if (Gdx.input.getAccelerometerX() > Constants.TURN_THRESHOLD){
+				car.acceleration(-1);
+			}
+			else if(Gdx.input.getAccelerometerX()< -1*Constants.TURN_THRESHOLD){
+				car.acceleration(1);
+			}
+//			acceleration = (float) (Gdx.input.getAccelerometerX()*-1*Constants.ACCELEROMETER_SCALAR);
 		}
 		
 		if (keys.get(Keys.UP)) {

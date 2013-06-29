@@ -35,5 +35,7 @@ public class Constants {
 	public static final int PICKUP_RADIUS = 100;
 	public static final int ZOMBIE_TRACKING_RADIUS = 200;
 	public static final int ZOMBIE_TRACKING_SIREN_RADIUS = 400;
+
+	public static final float TURN_THRESHOLD = 2;
 	
 }
