@@ -18,7 +18,6 @@ public class GameScreen implements Screen, InputProcessor {
 	private ArrayList<ButtonObject> menuButtons;
 	private static Sound mainMenue; 
 	
-	
 	@Override
 	public void render(float delta){		
 		Gdx.gl.glClearColor(0.1f, 0.1f, 0.1f, 1);

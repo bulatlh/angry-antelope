@@ -1,7 +1,7 @@
 package com.me.mygdxgame;
 
 import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.List;
 import java.util.Stack;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -18,7 +18,12 @@ public class TargetManager {
 		inactiveTargets = new Stack<Arrow>();
 	}
 	
+	public List<Arrow> getTargets(){
+		return activeTargets;
+	}
+
 	public int update(Car car){
+
 		float car_x = car.getCenterPosition().x; 
 		float car_y = car.getCenterPosition().y;
 		int arrow_count = 0;
@@ -27,21 +32,6 @@ public class TargetManager {
 				++arrow_count;
 			}
 		}
-		
-//		Iterator<Arrow> iter = activeTargets.iterator();
-//		
-//		while(iter.hasNext()){
-//			if (iter.next().update(car_x, car_y))
-//				iter.remove();
-//			
-//		}
-//		for (Arrow arrow : activeTargets){
-//			if ( arrow.update(car_x, car_y) ){
-//				activeTargets.remove(arrow);
-//			}
-//			// add logic here. 
-//			// remove or disable targets when needs to be removed
-//		}
 		return arrow_count;
 	}
 	

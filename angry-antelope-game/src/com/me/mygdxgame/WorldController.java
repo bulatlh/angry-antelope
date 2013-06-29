@@ -1,7 +1,6 @@
 package com.me.mygdxgame;
 
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -52,7 +51,7 @@ public class WorldController {
 	public void downPressed() {
 		keys.get(keys.put(Keys.DOWN, true));
 	}
-	
+
 	public void leftReleased() {
 		keys.get(keys.put(Keys.LEFT, false));
 	}
@@ -72,18 +71,18 @@ public class WorldController {
 	/** The main update method **/
 	public void update(float delta) {
 		processInput();
-
 		car.update(delta);
-		
+
 		// I got this number of people 
 		int picked_up_people = world.targets.update(car);
 		if (picked_up_people != 0)
 			System.out.println("picked up person! yahoo!" + picked_up_people);
-		
+
+		world.targets.update(car);
+
 		for(Zombie z : world.zombies){
 			z.update(delta);
 		}
-
 	}
 
 	/** Change Bob's state and parameters based on input controls **/
@@ -116,14 +115,14 @@ public class WorldController {
 				upReleased();
 				downReleased();
 			}
-//			car.acceleration -= Gdx.input.getAccelerometerX()*5;
+			//			car.acceleration -= Gdx.input.getAccelerometerX()*5;
 			System.out.println(Gdx.input.getAccelerometerX());
-//			if(Math.abs(car.acceleration) > Constants.CAR_MAX_ACCELERATION){
-//				car.acceleration = (car.acceleration/Math.abs(car.acceleration))*Constants.CAR_MAX_ACCELERATION;
-//			}
-//			acceleration = (float) (Gdx.input.getAccelerometerX()*-1*Constants.ACCELEROMETER_SCALAR);
+			//			if(Math.abs(car.acceleration) > Constants.CAR_MAX_ACCELERATION){
+			//				car.acceleration = (car.acceleration/Math.abs(car.acceleration))*Constants.CAR_MAX_ACCELERATION;
+			//			}
+			//			acceleration = (float) (Gdx.input.getAccelerometerX()*-1*Constants.ACCELEROMETER_SCALAR);
 			// need to check if both or none direction are pressed, then Bob is idle
-			
+
 		}	
 		if (keys.get(Keys.LEFT)) {
 			car.rotateCCW(renderer,keys.get(Keys.DOWN));
@@ -131,7 +130,11 @@ public class WorldController {
 		if (keys.get(Keys.RIGHT)) {
 			car.rotateCW(renderer,keys.get(Keys.DOWN));
 		}
-		
+
+		if ((!keys.get(Keys.RIGHT)  && !keys.get(Keys.LEFT))) {
+			car.clearAngularVelocity();
+		}		
+
 		if (keys.get(Keys.UP)) {
 			car.acceleration(1);
 		}
@@ -144,5 +147,5 @@ public class WorldController {
 		}
 	}
 
-	
+
 }
