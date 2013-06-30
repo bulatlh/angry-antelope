@@ -1,3 +1,13 @@
-Calvin checking in
+# Ambulance Z
+## Codename: Angry Antelope
 
-Bulat checking in
+### Authors
+* Bulat Bazarbayev
+* Calvin MacKenzie
+* Joe Muoio
+* Ryan Daugherty
+
+#### Objective
+Kill zombies.
+
+This game was influenced by Crazy Taxi, a popular arcade game.
