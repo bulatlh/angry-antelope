@@ -1,7 +1,5 @@
 bin/*
 *.class
 .DS_Store
-.classpath
-.project
 */lib/*
 */libs/*
